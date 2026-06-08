@@ -1,7 +1,7 @@
 import { Ionicons } from "@expo/vector-icons";
 import { View, Text, TextInput, Pressable } from "react-native";
 
-export default function PasswordInput({ password, setPassword, isPasswordVisible, setIsPasswordVisible, isDarkTheme , title }: { password: string; setPassword: (password: string) => void; isPasswordVisible: boolean; setIsPasswordVisible: (visible: boolean) => void; isDarkTheme: string; title: string }) {
+export default function PasswordInput({ password, setPassword, isPasswordVisible, setIsPasswordVisible, isDarkTheme }: { password: string; setPassword: (password: string) => void; isPasswordVisible: boolean; setIsPasswordVisible: (visible: boolean) => void; isDarkTheme: string }) {
   return (
     <View>
       <Text
@@ -14,7 +14,7 @@ export default function PasswordInput({ password, setPassword, isPasswordVisible
           marginLeft: 18,
         }}
       >
-        {title}
+        Password
       </Text>
 
       <View

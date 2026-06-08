@@ -27,6 +27,20 @@ export default function AppTabs() {
           renderingMode="template"
         />
       </NativeTabs.Trigger>
+      <NativeTabs.Trigger name="forgot">
+        <NativeTabs.Trigger.Label>Forgot</NativeTabs.Trigger.Label>
+        <NativeTabs.Trigger.Icon
+          src={require('@/assets/images/tabIcons/forgot.png')}
+          renderingMode="template"
+        />
+      </NativeTabs.Trigger>
+      <NativeTabs.Trigger name="confirmation">
+        <NativeTabs.Trigger.Label>Confirmation</NativeTabs.Trigger.Label>
+        <NativeTabs.Trigger.Icon
+          src={require('@/assets/images/tabIcons/forgot.png')}
+          renderingMode="template"
+        />
+      </NativeTabs.Trigger>
     </NativeTabs>
   );
 }

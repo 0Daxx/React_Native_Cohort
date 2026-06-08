@@ -80,27 +80,6 @@ export default function HomeScreen() {
           backgroundColor: isDarkTheme === "dark" ? "#111111" : "#ffffff",
         }}
       >
-        {/* <View
-          style={{
-            backgroundColor: "#ff0000ff",
-            alignItems: "flex-end",
-            padding: 10,
-            margin: 10,
-            visibility: "hidden", 
-          }}
-        >
-          <Pressable
-            onPress={() =>
-              setIsDarkTheme(isDarkTheme === "dark" ? "light" : "dark")
-            }
-          >
-            <Ionicons
-              name={isDarkTheme === "dark" ? "sunny" : "moon"}
-              size={30}
-              color={isDarkTheme ? "#ffffff" : "#111111"}
-            />
-          </Pressable>
-        </View> */}
         <View
           style={{
             flex: 1,
@@ -153,6 +132,7 @@ export default function HomeScreen() {
           isPasswordVisible={isPasswordVisible}
           setIsPasswordVisible={setIsPasswordVisible}
           isDarkTheme={isDarkTheme}
+          title="Password"
         />
 
         {/* social media sign in  */}
