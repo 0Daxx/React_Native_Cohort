@@ -1,5 +1,4 @@
 import { Ionicons } from "@expo/vector-icons";
-// import { View } from "react-native/Libraries/Components/View/View";
 import { View, Text, TextInput } from "react-native";
 
 export default function EmailInput({
@@ -56,7 +55,6 @@ export default function EmailInput({
             fontSize: 16,
             color: "#000000",
           }}
-          // on focus , border radiun is 3 and color green
         />
       </View>
     </View>

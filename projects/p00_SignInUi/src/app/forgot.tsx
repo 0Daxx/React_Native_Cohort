@@ -100,7 +100,9 @@ export default function Forgot() {
     >
       <SafeAreaView
         style={{
-          flex: 1,
+          // flex: 1,
+          gap: 15,
+          alignSelf: "center",
           backgroundColor: isDarkTheme === "dark" ? "#111111" : "#ffffff",
         }}
       >

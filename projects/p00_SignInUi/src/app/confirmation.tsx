@@ -20,14 +20,15 @@ export default function Confirmation() {
       behavior={Platform.OS === "ios" ? "padding" : "height"}
       style={{
         flex: 1,
-        backgroundColor: isDarkTheme === "dark" ? "#111111" : "#ffffff",
+        gap: 15,
+        // backgroundColor: isDarkTheme === "dark" ? "#111111" : "#ffffff",
         alignItems: "center",
         justifyContent: "center",
       }}
     >
       <SafeAreaView
         style={{
-          flex: 1,
+          // flex: 1,
           gap:10,
           backgroundColor: isDarkTheme === "dark" ? "#111111" : "#ffffff",
         }}
@@ -37,7 +38,7 @@ export default function Confirmation() {
             flex: 1,
             alignItems: "center",
             justifyContent: "center",
-            backgroundColor: isDarkTheme === "dark" ? "#4e4e4e" : "#ffffff",
+            // backgroundColor: isDarkTheme === "dark" ? "#4e4e4e" : "#ffffff",
             margin: 20,
             borderRadius: 10,
             padding: 20,

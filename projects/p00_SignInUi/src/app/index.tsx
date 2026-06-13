@@ -76,13 +76,14 @@ export default function HomeScreen() {
     >
       <SafeAreaView
         style={{
-          flex: 1,
+          // flex: 1,
           backgroundColor: isDarkTheme === "dark" ? "#111111" : "#ffffff",
         }}
       >
         <View
           style={{
-            flex: 1,
+            // flex: 1,
+            gap: 15,
             alignSelf: "center",
             justifyContent: "center",
             alignContent: "center",
