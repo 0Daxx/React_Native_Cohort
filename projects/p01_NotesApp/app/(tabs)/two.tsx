@@ -67,7 +67,7 @@ export default function TabTwoScreen() {
           source={require("../../assets/images/bg2.jpg")}
           // source={require("../assets/images/bg2.jpg")}
         style={{ position: "absolute", width: "100%", height: "40%" }}
-          imageStyle={{ opacity: 0.6 }}
+          imageStyle={{ opacity: 0.9 }}
 
         />
       <Pressable
