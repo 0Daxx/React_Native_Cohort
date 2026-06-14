@@ -1,10 +1,18 @@
-import { Text, TextInput, View, KeyboardAvoidingView, useColorScheme, Switch } from "react-native";
+import {
+  Text,
+  TextInput,
+  View,
+  KeyboardAvoidingView,
+  useColorScheme,
+  Switch,
+  Platform,
+  ImageBackground,
+} from "react-native";
 import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useState } from "react";
 import { Pressable } from "react-native";
 import Ionicons from "@react-native-vector-icons/ionicons";
-// import { KeyboardAvoidingView } from "react-native/types_generated/index";
 
 interface NoteCardProps {
   date: string;
@@ -34,112 +42,112 @@ export default function TabTwoScreen() {
       id: "2",
     },
   ]);
-  const [title, setTitle] = React.useState<string | unknown>();
+  const [title, setTitle] = React.useState<string | undefined>("");
   const [note, setNote] = React.useState<string>(
     "noice this is a note , this is a note , this is a note , this is a note , this is a note , this is a note , this is a note , this is a note , this is a note , this is a note , this is a note , this is a note , this is a note , this is a note , this is a note , this is a note , this is a note , this is a note , this is a note , this is a note , this is a note , this is a note , this is a note  ",
   );
   const theme = useColorScheme();
   const [isDarkMode, setIsDarkMode] = React.useState<boolean>(false);
-  return (
-    // @ts-ignore
-    <SafeAreaView>
-      {/* @ts-ignore */}
 
+  // Dynamic style mappings for dark/light variations
+  const dynamicContainer = {
+    backgroundColor: isDarkMode ? "#121212" : "#ffffff",
+  };
+  const dynamicTextColor = { color: isDarkMode ? "#ffffff" : "#000000" };
+  const dynamicInputBg = {
+    backgroundColor: isDarkMode ? "#1e1e1e" : "#f5f5f5",
+  };
+
+  // every re render of this component will cause the entire screen to re-render, which is not ideal for performance. Consider using React.memo or useCallback for optimization if needed.
+
+  return (
+    <SafeAreaView style={{ ...dynamicContainer, flex: 1 }}>
+      {/* @ts-ignore */}
+      <ImageBackground 
+          source={require("../../assets/images/bg2.jpg")}
+          // source={require("../assets/images/bg2.jpg")}
+        style={{ position: "absolute", width: "100%", height: "40%" }}
+          imageStyle={{ opacity: 0.6 }}
+
+        />
       <Pressable
         style={{
-          borderColor: "gray",
-          // borderWidth: 1,
           borderRadius: 10,
-          width: "60",
-          height: 60,
-          backgroundColor: isDarkMode ? null : "#f0f0f0",
-          padding: 10,
+          width: 40,
+          height: 40,
+          backgroundColor: isDarkMode ? "#333333" : "#f0f0f0",
           alignSelf: "flex-end",
-          margin: 20,
+          marginRight: 20,
+          marginTop: 10,
           justifyContent: "center",
           alignItems: "center",
-          // position: "absolute",
         }}
-      onPress={() => setIsDarkMode(!isDarkMode)}>
-        {
-          isDarkMode ? (
-            <Ionicons name="sunny-outline" color="#fffb00" size={40} 
-            style={{ 
-              position: "absolute",
-               top: 10, right: 10 }}
-
-             />
-          ) : (
-            <Ionicons name="moon-outline" color="#000000" size={40} style={{ position: "absolute", top: 10, right: 10 }} />
-          )
-        }
-
-        {/*@ts-ignore */}
+        onPress={() => setIsDarkMode(!isDarkMode)}
+      >
+        <Ionicons
+          name={(isDarkMode && "sunny-outline") || "moon-outline"}
+          color={isDarkMode ? "#fffb00" : "#000000"}
+          size={30}
+        />
       </Pressable>
 
-
-      <View>
-        {/*@ts-ignore */}
-
-        <View>
-          {/*@ts-ignore */}
-          <Text style={{ color: "#ffff" }}>
-            {" "}
-            {note.trim().split(/\s+/).length} words{" "}
+      <View style={{ flex: 1, paddingHorizontal: 20 }}>
+        <View style={{ marginBottom: 15 }}>
+          <Text style={[{ fontSize: 14, opacity: 0.9 }, dynamicTextColor]}>
+            {note.trim().split(/\s+/).filter(Boolean).length} words
           </Text>
-          {/* <Text style={{ color: "#ffff" }} > { notesList[0].note.trim().split(/\s+/).length } words </Text> */}
 
-          {/*@ts-ignore */}
           <TextInput
-            // placeholder="Enter title"
-            placeholder= { "Title "   }  
+            placeholder="Title"
             placeholderTextColor="gray"
             value={title}
             onChangeText={setTitle}
-            style={{
-              height: 40,
-              borderColor: "gray",
-              color: "#ffff",
-              fontSize: 20,
-            }}
+            style={[
+              {
+                height: 50,
+                fontSize: 22,
+                fontWeight: "bold",
+                marginTop: 5,
+              },
+              dynamicTextColor,
+            ]}
           />
-          {/*@ts-ignore */}
-          <Text style={{ color: "#ffff" }}>
-            {" "}
-            {notesList[0].tags.map((tag: string) => `#${tag}`)}{" "}
+
+          <Text style={[{ fontSize: 14, marginTop: 5, color: "#007AFF" }]}>
+            {notesList[0].tags.map((tag: string) => `#${tag} `)}
           </Text>
-          {/*@ts-ignore */}
-          <Text style={{ color: "gray", fontSize: 12, marginLeft: 10 }}></Text>
         </View>
-        {/*@ts-ignore */}
-        <View style={{ height: 1, backgroundColor: "gray" }}></View>
-        {/*@ts-ignore */}
+
+        <View
+          style={{
+            height: 1,
+            backgroundColor: "gray",
+            opacity: 0.3,
+            marginBottom: 15,
+          }}
+        />
 
         <KeyboardAvoidingView
-          behavior="padding"
-          style={{
-            width: "99%",
-            height: "95%",
-          }}
+          behavior={Platform.OS === "ios" ? "padding" : "height"}
+          style={{ flex: 1 }}
         >
-          {/*@ts-ignore */}
           <TextInput
             placeholder="enter note"
+            placeholderTextColor="gray"
             value={note}
             multiline={true}
             onChangeText={setNote}
-            style={{
-              borderColor: "gray",
-              color: "#ffff",
-              fontSize: 16,
-              textAlignVertical: "top",
-              backgroundColor: "#101010",
-              width: "99%",
-              height: "95%",
-              padding: 10,
-              borderRadius: 10,
-              alignSelf: "center",
-            }}
+            style={[
+              {
+                flex: 1,
+                fontSize: 16,
+                textAlignVertical: "top",
+                padding: 15,
+                borderRadius: 10,
+              },
+              dynamicTextColor,
+              dynamicInputBg,
+            ]}
           />
         </KeyboardAvoidingView>
       </View>

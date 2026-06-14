@@ -14,15 +14,7 @@ import {
   SafeAreaView,
   useSafeAreaInsets,
 } from "react-native-safe-area-context";
-import { StatusBar } from "expo-status-bar";
-
-// import { Ionicons } from "@expo/vector-icons";
-import * as ScreenOrientation from "expo-screen-orientation";
-
 import { Ionicons } from "@react-native-vector-icons/ionicons";
-import { PixelRatio } from "react-native";
-import { FlipInEasyX } from "react-native-reanimated";
-// import { FlatList}
 
 interface NoteCardProps {
   date: string;
@@ -31,62 +23,66 @@ interface NoteCardProps {
   note: string;
   title: string;
   id: string;
+  isDarkMode: boolean;
 }
 
-function NoteComponent({ note, date, tags, preview, title, id }: NoteCardProps) {
+function NoteComponent({
+  date,
+  tags,
+  preview,
+  title,
+  isDarkMode,
+}: Omit<NoteCardProps, "note" | "id">) {
+  const dynamicTextColor = { color: isDarkMode ? "#ffffff" : "#000000" };
+
   return (
     <Pressable
       style={{
-        margin: 20,
-        padding: 10,
-        backgroundColor: "#101010",
-        borderRadius: 10,
+        marginHorizontal: 20,
+        marginVertical: 10,
+        padding: 15,
+        backgroundColor: isDarkMode ? "#1e1e1e" : "#f5f5f5",
+        borderRadius: 12,
         flexDirection: "row",
         alignItems: "center",
         justifyContent: "space-between",
+        shadowColor: "#000",
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: isDarkMode ? 0 : 0.05,
+        shadowRadius: 8,
+        elevation: isDarkMode ? 0 : 2,
       }}
-      onPress={() => {
-        console.log("Note pressed");
-      }}
+      onPress={() => console.log("Note pressed")}
     >
-      <View
-        style={{
-          flexDirection: "column",
-          // borderColor: "gray", borderWidth: 1 ,
-          padding: 15,
-        }}
-      >
-        <Text style={{ color: "white" }}>{date}</Text>
-        <Text style={{ fontSize: 18, fontWeight: "bold", color: "#ffff" }}>
+      <View style={{ flex: 1, paddingRight: 10 }}>
+        <Text style={[{ fontSize: 18, fontWeight: "bold" }, dynamicTextColor]}>
           {title}
         </Text>
-        <Text style={{ color: "white" }}>{preview}</Text>
-        {/* <Text style={{ color: "white" }}>{note}</Text> */}
-        <Text style={{ color: "white" }}>{tags.join(", ")}</Text>
+        <Text style={{ fontSize: 12, color: "gray", marginTop: 4 }}>
+          {date}
+        </Text>
+        <Text style={[{ fontSize: 14, marginTop: 8, opacity: 0.8 }, dynamicTextColor]} numberOfLines={2}>
+          {preview}
+        </Text>
+        <Text style={{ color: "#4F8EF7", fontSize: 13, marginTop: 8, fontWeight: "500" }}>
+          {tags.map(tag => `#${tag}`).join(" ")}
+        </Text>
+      </View>
 
-        <Pressable>
-          <Ionicons
-            name="ellipsis-horizontal-outline"
-            color="#434344"
-            size={25}
-            style={{ position: "absolute", top: 10, right: 10 }}
-          />
-        </Pressable>
-      </View> 
+      <Pressable style={{ padding: 5 }} onPress={() => console.log("Menu pressed")}>
+        <Ionicons
+          name="ellipsis-horizontal-outline"
+          color={isDarkMode ? "#aaaaaa" : "#666666"}
+          size={22}
+        />
+      </Pressable>
     </Pressable>
   );
 }
 
 export default function TabOneScreen() {
-  const colorScheme = useColorScheme();
   const [input, setInput] = useState<string>("");
-
-  // const { height, width } = useWindowDimensions();
-  // const insets = useSafeAreaInsets();
-  // const isTablet = width >= height;
-  // const isLandscape = width >= 768 && width > height;
-
-  const [notesList, setNotesList] = useState<NoteCardProps[]>([
+  const [notesList] = useState<Omit<NoteCardProps, "isDarkMode">[]>([
     {
       title: "Note sas 1",
       note: "noice , this is a note 1",
@@ -97,7 +93,7 @@ export default function TabOneScreen() {
     },
     {
       title: "Note 2",
-      note: "noice , this is a note 2",
+      note: "noice , this is a note 2 password ",
       date: "2023-07-02",
       tags: ["tag3", "tag4"],
       preview: "Preview 2",
@@ -105,100 +101,128 @@ export default function TabOneScreen() {
     },
   ]);
 
+  const [filteredNotes, setFilteredNotes] = useState(notesList);
+  const [inInputFocus, setInInputFocus] = useState<boolean>(false);
+  const [isDarkMode, setIsDarkMode] = React.useState<boolean>(false);
+
+  const dynamicTextColor = { color: isDarkMode ? "#ffffff" : "#000000" };
+
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: isDarkMode ? "#121212" : "#ffffff" }}>
+      
+      {/* Theme Toggle Button Container */}
+      <View style={{ height: 50, justifyContent: "center", paddingHorizontal: 20 }}>
+        <Pressable
+          style={{
+            borderRadius: 10,
+            width: 40,
+            height: 40,
+            backgroundColor: isDarkMode ? "#333333" : "#f0f0f0",
+            alignSelf: "flex-end",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+          onPress={() => setIsDarkMode(!isDarkMode)}
+        >
+          <Ionicons
+            name={isDarkMode ? "sunny-outline" : "moon-outline"}
+            color={isDarkMode ? "#fffb00" : "#000000"}
+            size={24}
+          />
+        </Pressable>
+      </View>
 
-
-    {/* @ts-ignore */}
+      {/* Search Bar Wrapper Container */}
       <View
         style={{
           flexDirection: "row",
-          borderColor: "gray",
-          borderWidth: 1,
-          borderRadius: 10,
-          width: 300,
-          height: 40,
+          backgroundColor: isDarkMode ? "#1e1e1e" : "#f5f5f5",
+          borderRadius: 12,
+          height: 46,
           alignItems: "center",
-          justifyContent: "center",
-          padding: 10,
-          alignSelf: "center",
-          margin: 10,
-          gap: 10,
-          width: "80%",
+          paddingHorizontal: 12,
+          marginHorizontal: 20,
+          marginVertical: 10,
         }}
       >
-        <Ionicons name="search-outline" color="#4F8EF7" size={25} />
+        <Ionicons name="search-outline" color="gray" size={20} style={{ marginRight: 8 }} />
+        
         <TextInput
-          // clearButtonMode="always"
-          type="text"
           value={input}
-          onChangeText={setInput}
+          onFocus={() => setInInputFocus(true)}
+          onBlur={() => setInInputFocus(false)}
+          onChangeText={(text: string) => {
+            setInput(text);
+            setFilteredNotes(
+              notesList.filter(
+                (note) =>
+                  note.title.toLowerCase().includes(text.toLowerCase()) ||
+                  note.note.toLowerCase().includes(text.toLowerCase()),
+              ),
+            );
+          }}
           placeholder="Search in notes"
           placeholderTextColor="gray"
-          style={{
-            height: 40,
-            width: "80%",
-            color: "#ffff",
-            alignSelf: "center",
-            justifyContent: "center",
-            // flex:1,
-            // alignItems: "center",
-            // justifyContent: "center",
-          }}
+          style={[{
+            flex: 1,
+            height: "100%",
+            fontSize: 15,
+          }, dynamicTextColor]}
         />
+        
+        {inInputFocus && input.length > 0 && (
+          <Pressable
+            onPress={() => {
+              setInput("");
+              setFilteredNotes(notesList);
+            }}
+            style={{ padding: 4 }}
+          >
+            <Ionicons name="close-circle" color="gray" size={18} />
+          </Pressable>
+        )}
       </View>
 
+      {/* Notes List */}
       <FlatList
-        data={notesList}
+        data={filteredNotes}
+        contentContainerStyle={{ paddingBottom: 90 }}
         renderItem={({ item }: { item: NoteCardProps }) => (
           <NoteComponent
-            note={item.note}
             date={item.date}
             tags={item.tags}
             preview={item.preview}
             title={item.title}
+            isDarkMode={isDarkMode}
           />
         )}
-        keyExtractor={(item, index) => index.toString()}
-      ></FlatList>
+        keyExtractor={(item) => item.id}
+      />
 
-      <Pressable backgroundColor="transparent" onPress={() => console.log("Add note")}>
-        <Ionicons
-          name="add-circle-outline"
-          color="#4F8EF7"
-          size={50}
-          style={{ position: "absolute", bottom: 20, right: 30 }}
-        />
+      {/* Floating Action Button (FAB) */}
+      <Pressable
+        style={{
+          position: "absolute",
+          bottom: 30,
+          right: 25,
+          width: 56,
+          height: 56,
+          borderRadius: 28,
+          backgroundColor: "#4F8EF7",
+          justifyContent: "center",
+          alignItems: "center",
+          shadowColor: "#4F8EF7",
+          shadowOffset: { width: 0, height: 4 },
+          shadowOpacity: 0.3,
+          shadowRadius: 6,
+          elevation: 5,
+        }}
+        onPress={() => console.log("Add note")}
+      >
+        <Ionicons name="add" color="#ffffff" size={30} />
       </Pressable>
     </SafeAreaView>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: "bold",
-  },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: "80%",
-  },
-  button: {
-    backgroundColor: "lightgray",
-    padding: 10,
-    margin: 10,
-  },
-  darkButton: {
-    backgroundColor: "#333",
-  },
-  lightButton: {
-    backgroundColor: "#fff",
-    color: "#000000",
-  },
-});
+const styles = StyleSheet.create({});
