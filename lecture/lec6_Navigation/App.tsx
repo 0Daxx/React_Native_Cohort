@@ -11,6 +11,7 @@ import DetailScreen from './src/screens/DetailScreen';
 import HomeScreen from './src/screens/HomeScreen';
 // import DetailsScreen from './src/screens/DetailScreen';
 import ProfileScreen from './src/screens/ProfileScreen';
+import SearchScreen from './src/screens/SearchScreen';
 
 const RootStack = createNativeStackNavigator({
   screens:{
@@ -35,12 +36,16 @@ const Navigation = createStaticNavigation(MyTabs);
 
 import DynamicStackNavigator from './src/navigator/stack/DynamicStackNavigator';
 import DynamicTabNavigator from './src/navigator/tabs/DynamicTabNavigator';
+import DynamicDrawer from './src/navigator/drawer/DynamicDrawer';
+
+
 
 export default function App() {
   return (
+    <DynamicDrawer />
     // <Navigation />
 
-      // <DynamicStackNavigator />
-    <DynamicTabNavigator />
-    );
+    // <DynamicStackNavigator />
+  );
+  {/* <DynamicTabNavigator /> */}
 }
