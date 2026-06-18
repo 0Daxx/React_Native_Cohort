@@ -13,14 +13,14 @@ import {
   StyleSheet,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { Colors } from "../constants/Colors";
-import BarText from "../components/BarText";
-import HomeTabNavigator from "../navigator/HomeTabNavigator";
+import { Colors } from "../../constants/Colors";
+import BarText from "../../components/BarText";
+import HomeDishTabNavigator from "../../navigator/HomeDishTabNavigator";
 import { SafeAreaView } from "react-native-safe-area-context";
 import ProfileScreen from "../navigator/ProfileScreen";
 // import { ScrollView } from "react-native-gesture-handler";
 
-import SearchScreen from "./SearchScreen";
+import SearchScreen from "../SearchScreen";
 
 const FILTERS = [
   { icon1: "leaf-outline", icon2: "leaf", label: "Near & Fast", id: 1 },
@@ -29,9 +29,13 @@ const FILTERS = [
   { icon1: "cash-outline", icon2: "cash", label: "Offers", id: 4 },
 ];
 
+import { useNavigation } from "@react-navigation/native";
+
 export default function HomeScreen() {
   const [isVeg, setIsVeg] = useState(false);
-  return (
+  const [searchQuery, setSearchQuery] = useState<string>("");
+  const navigation = useNavigation();
+  return (  
     <SafeAreaView style={{ flex: 1, backgroundColor: "#fff" }}>
       <ScrollView
         style={{ flex: 1, backgroundColor: "#fff" }}
@@ -45,8 +49,6 @@ export default function HomeScreen() {
             // alignItems: "center",
             justifyContent: "space-between",
             padding: 16,
-            // borderBottomWidth: 2,
-            // borderBottomColor: "#1F2937",
           }}
         >
           <View
@@ -119,7 +121,7 @@ export default function HomeScreen() {
           </View>
         </View>
 
-        {/* Search Bar */}
+        {/* Search Bar Component */}
         <View
           style={{
             display: "flex",
@@ -144,16 +146,19 @@ export default function HomeScreen() {
               borderRadius: 20,
               padding: 8,
             }}
-          >
-            <Ionicons
             onPress={() => {
               // Handle search icon press, e.g., navigate to restaurant search screen
-              
+              // navigation.navigate("Search"); 
+              console.log("Search icon pressed");
             }}
+          >
+            <Ionicons
             name="search" size={24} color={Colors.primary} 
             />
           </Pressable>
           <TextInput
+            value={searchQuery}
+            onChangeText={setSearchQuery}
             placeholderTextColor="#818181"
             placeholder="Search for coffee, cafes..."
             style={{ flex: 1 }}
@@ -216,7 +221,7 @@ export default function HomeScreen() {
             <Text style={{ fontWeight: "bold" }}>Lunch</Text>
           </View>
         </ScrollView>
-        <HomeTabNavigator />
+        {/* <HomeTabNavigator /> */}
 
         {/* Filters Section */}
         <View style={{ display: "flex", flexDirection: "row", gap: 8 , marginTop: 16, marginBottom: 16,  }}   >

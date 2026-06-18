@@ -11,6 +11,7 @@ import {
   Pressable,
   ScrollView,
   ImageBackground,
+  FlatList,
 } from "react-native";
 
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -142,6 +143,14 @@ interface RestaurantCardProp {
   // distance: number;
 }
 
+type ExploreRestaurantCardProp = Omit<
+  RestaurantCardProp,
+  "mood" | "location"
+> & {
+  distance: number;
+};
+
+// COMPONENTS
 function RestaurantCard({
   name,
   image,
@@ -152,8 +161,12 @@ function RestaurantCard({
 }: RestaurantCardProp) {
   return (
     <Pressable
-      onPress={() => {}}
-      style={({ pressed }) => ({ width: "100%", paddingHorizontal: 15, opacity: pressed ? 0.7 : 1   })}
+      // onPress={() => {}}
+      style={({ pressed }) => ({
+        width: "100%",
+        paddingHorizontal: 15,
+        opacity: pressed ? 0.7 : 1,
+      })}
     >
       <View
         style={{
@@ -208,34 +221,62 @@ function RestaurantCard({
   );
 }
 
-function ExploreRestaurants({}: Omit<RestaurantCardProp, "mood" | "location">) {
+function ExploreRestaurantCard({
+  name,
+  image,
+  veg,
+  rating,
+  distance,
+  navigation
+}: {ExploreRestaurantCardProp , navigation: any}) {
   return (
-    <View
-      style={{
-        flexDirection: "column",
-        alignItems: "flex-start",
-        gap: 8,
-        flex: 1,
-      }}
-    >
-      <Image source={require("../../assets/images/dine.png")} />
+    <Pressable onPress={() => {
+      // navigate to restaurant details page 
+      navigation.navigate("RestaurantDetails", { name, image, veg, rating, distance });
+    }} 
+    style={{ width: 200, marginRight: 15 }}>
+      <View
+        style={{
+          flexDirection: "column",
+          alignItems: "flex-start",
+          gap: 8,
+          // flex: 1,
+          marginRight: 15,
+        }}
+      >
+        <Image
+          source={require("../../assets/images/dine.png")}
+          style={{
+            width: useWindowDimensions().width * 0.3,
+            height: useWindowDimensions().height * 0.15,
+            borderRadius: 12,
+          }}
+        />
 
-      <View style={{ flexDirection: "row", alignItems: "center", gap: 5 }}>
-        <Text style={{ fontSize: 18, fontWeight: "600", color: "#ffffff" }}>
-          {name}
-        </Text>
-      </View>
-      <Text style={{ fontSize: 14, color: "#b0b0b0" }}> {distance} </Text>
-      {/* {restaurants.map((r) => (
+        <View style={{ flexDirection: "row", alignItems: "center", gap: 5 }}>
+          <Text style={{ fontSize: 18, fontWeight: "600", color: "#ffffff" }}>
+            {name}
+          </Text>
+        </View>
+        <Text style={{ fontSize: 14, color: "#b0b0b0" }}> {distance} </Text>
+        {/* {restaurants.map((r) => (
         <RestaurantCard key={r.id} {...r} />
       ))} */}
-    </View>
+      </View>
+    </Pressable>
   );
 }
+
+import { useNavigation } from '@react-navigation/native';
+
+
 
 export default function SearchScreen() {
   const { width, height } = useWindowDimensions();
   const [searchQuery, setSearchQuery] = React.useState<string>("");
+
+  const navigation = useNavigation();
+
   return (
     <View
       style={{
@@ -286,8 +327,8 @@ export default function SearchScreen() {
           backgroundColor: "#1F2937",
         }}
       >
-        {/* restaurant names after query search */}
 
+        {/* restaurant names after query search */}
         {RESTAURANTS.filter((restaurant) => {
           return (
             restaurant.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -446,6 +487,29 @@ export default function SearchScreen() {
             Explore Other Restaurants{" "}
           </Text>
           {/* OTHER restaurants */}
+          <FlatList
+            data={RESTAURANTS}
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            keyExtractor={(item) => item.id.toString()}
+            renderItem={({ item }) => (
+              <ExploreRestaurantCard
+                restaurant={item}
+                style={{ width: "100%" }}
+                key={item.id}
+                navigation={navigation}
+              />
+            )}
+            contentContainerStyle={
+              {
+                // flex: 1 ,
+                // padding: 10,
+                // width: width * 0.25,
+                // gap: 10,
+                // height: height * 0.3,
+              }
+            }
+          />
         </ScrollView>
       </View>
     </View>

@@ -11,62 +11,51 @@ import { Ionicons } from "@expo/vector-icons";
 import OnboardScreen from "./src/screens/OnboardScreen";
 
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import HomeScreen from "./src/screens/HomeScreen";
+import HomeScreen from "./src/screens/tabs/HomeScreen";
 import DineScreen from "./src/screens/DineScreen";
-import EventScreen from "./src/screens/EventScreen";
-import ProfileScreen from "./src/navigator/ProfileScreen";
-import GroceryScreen from "./src/screens/GroceryScreen";
+import EventScreen from "./src/screens/tabs/EventScreen";
+// import ProfileScreen from "../src/navigator/ProfileScreen";
+import GroceryScreen from "./src/screens/tabs/GroceryScreen";
+import ProfileScreen from "./src/screens/tabs/ProfileScreen";
 
-import { NavigationContainer } from "@react-navigation/native";
+import RestaurantDetails from "./src/screens/RestaurantDetails";
+import {
+  NavigationContainer,
+  createNativeStackNavigator,
+} from "@react-navigation/native";
+
+import { createStackNavigator } from "@react-navigation/stack";
+
+const Stack = createStackNavigator();
+
+import AppNavigator from "./src/navigator/AppNavigator";
 
 // screens
 
-const Tab = createBottomTabNavigator();
-
-// ALL
-
-
-const TABS=[
-  { name: "Home", component: HomeScreen, icon: "home-outline" },
-  { name: "Dine", component: DineScreen, icon: "restaurant-outline" },
-  { name: "Grocery", component: GroceryScreen, icon: "cart-outline" },
-  { name: "Event", component: EventScreen, icon: "calendar" },
-  { name: "Profiler", component: ProfileScreen, icon: "person" },
-]
-function Tabs() {
-  
-  return (
-    <>
-      <StatusBar style="auto" />
-      <Tab.Navigator  
-      // headershown={false}
-       screenOptions={{ headerShown: false }} >
-
-        {
-          TABS.map((tab) => (
-            <Tab.Screen
-              key={tab.name}
-              name={tab.name}
-              component={tab.component}
-              options={{
-                tabBarIcon: () => (
-                  <Ionicons name={tab.icon} size={24} color="black" />
-                ),
-              }}
-            />
-          ))
-        }
-      </Tab.Navigator>
-    </>
-  );
-}
+// Root Stack Navigator
+export type RootStackParamList = {
+  Onboard: undefined;
+  Home: undefined;
+  RestaurantDetails: {
+    name: string;
+    image: string;
+    veg: boolean;
+    rating: number;
+    distance: string;
+    rating: number;
+    distance: string;
+  };
+  Profile: undefined;
+  Search: undefined;
+};
+const RootStack = createStackNavigator<RootStackParamList>();
 
 export default function App() {
   return (
     <NavigationContainer>
-      <Tabs />
+      <AppNavigator />
     </NavigationContainer>
-    );
+  );
 }
 
 const styles = StyleSheet.create({

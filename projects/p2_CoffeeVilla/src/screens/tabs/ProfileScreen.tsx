@@ -6,8 +6,8 @@ import { SafeAreaView } from "react-native-safe-area-context";
 // import HomeScreen from "../screens/HomeScreen";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { NavigationContainer } from "@react-navigation/native";
-import LoginScreen from "../screens/profile/LoginScreen";
-import LogoutScreen from "../screens/profile/LogoutScreen";
+import LoginScreen from "../profile/LoginScreen";
+import LogoutScreen from "../profile/LogoutScreen";
 // import ProfileDrawer from "../navigator/ProfileDrawer";
 const Drawer = createDrawerNavigator();
 function ProfileDrawer() {

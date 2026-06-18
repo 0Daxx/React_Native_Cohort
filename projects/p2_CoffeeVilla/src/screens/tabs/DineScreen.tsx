@@ -40,7 +40,7 @@ export default function DineScreen() {
         // justifyContent: "center", alignItems: "center"
       }}
     >
-      <ScrollView>
+      <ScrollView style={{ flex: 1 }} >
         {/* top */}
         <View
           style={{
@@ -52,6 +52,7 @@ export default function DineScreen() {
             alignItems: "center",
             paddingHorizontal: 20,
             paddingVertical: 10,
+            flexGrow: 1,
           }}
         >
           <View
@@ -148,7 +149,9 @@ export default function DineScreen() {
             </Text>
           </Pressable>
         </View>
-        {/* LIST OF RESTAURANTS */}
+
+        {/* LIST OF EXPLORE RESTAURANTS */}
+        
 
         <SearchScreen />
         {/* </View> */}

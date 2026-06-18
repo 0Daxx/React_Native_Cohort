@@ -22,7 +22,7 @@ export default function OnboardScreen() {
       style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
     >
       <Image
-        source={require("../../assets/image/onboard.png")}
+        source={require("../../assets/images/dine.png")}
         style={{ width: 200, height: 200 }}
       />
       <Text style={{ fontSize: 24, fontWeight: "bold", marginTop: 20 }}>
