@@ -16,7 +16,6 @@ function ProfileDrawer() {
     //  initialRouteName="Home"
     //  screenOptions={{ headerShown: false }}
     >
-
       <Drawer.Screen name="Login" component={LoginScreen} />
       <Drawer.Screen name="Logout" component={LogoutScreen} />
 

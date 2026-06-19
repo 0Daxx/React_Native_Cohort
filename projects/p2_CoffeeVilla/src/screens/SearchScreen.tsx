@@ -18,119 +18,8 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 import { useWindowDimensions } from "react-native";
 
-interface RestaurantProps {
-  image: string;
-  name: string;
-  mood: string;
-  location: string;
-  rating: number;
-  id: number;
-}
+import { RESTAURANTS } from "../data/restaurants";
 
-import { getRandomValues } from "expo-crypto";
-import { v4 as uuidv4 } from "uuid";
-import { Background } from "@react-navigation/elements";
-
-const randomId = () => {
-  // Math.floor(Math.random() * 1000000);
-  const random = new Uint8Array(16);
-  getRandomValues(random);
-
-  return uuidv4({
-    random,
-  });
-};
-
-const RESTAURANTS: RestaurantProps[] = [
-  {
-    image: "https://source.unsplash.com/400x300/?cafe",
-    name: "Cafe 1",
-    mood: "Mood 1",
-    location: "Location 1",
-    rating: 4.5,
-    id: randomId(),
-  },
-  {
-    image: "https://source.unsplash.com/400x300/?cafe",
-    name: "Cafe 1",
-    mood: "Mood 1",
-    location: "Location 1",
-    rating: 4.5,
-    id: randomId(),
-  },
-  {
-    image: "https://source.unsplash.com/400x300/?cafe",
-    name: "Cafe 1",
-    mood: "Mood 1",
-    location: "Location 1",
-    rating: 4.5,
-    id: randomId(),
-  },
-  {
-    image: "https://source.unsplash.com/400x300/?cafe",
-    name: "Cafe 1",
-    mood: "Mood 1",
-    location: "Location 1",
-    rating: 4.5,
-    id: randomId(),
-  },
-  {
-    image: "https://source.unsplash.com/400x300/?cafe",
-    name: "bole to vadapao",
-    mood: "Mood 1",
-    location: "Location 1",
-    rating: 4.5,
-    id: randomId(),
-  },
-  {
-    image: "https://source.unsplash.com/400x300/?cafe",
-    name: "Cafe 1",
-    mood: "Mood 1",
-    location: "Location 1",
-    rating: 4.5,
-    id: randomId(),
-  },
-  {
-    image: "https://source.unsplash.com/400x300/?cafe",
-    name: "aalo chef",
-    mood: "Mood 1",
-    location: "Location 1",
-    rating: 4.5,
-    id: randomId(),
-  },
-  {
-    image: "https://source.unsplash.com/400x300/?cafe",
-    name: "bhindi rasoi",
-    mood: "Mood 1",
-    location: "Location 1",
-    rating: 4.5,
-    id: randomId(),
-  },
-  {
-    image: "https://source.unsplash.com/400x300/?cafe",
-    name: "chowmein saga",
-    mood: "Mood 1",
-    location: "Location 1",
-    rating: 4.5,
-    id: randomId(),
-  },
-  {
-    image: "https://source.unsplash.com/400x300/?cafe",
-    name: "Cafe 1",
-    mood: "Mood 1",
-    location: "Location 1",
-    rating: 4.5,
-    id: randomId(),
-  },
-  {
-    image: "https://source.unsplash.com/400x300/?cafe",
-    name: "Apni rasoi",
-    mood: "Mood 1",
-    location: "Location 1",
-    rating: 4.5,
-    id: randomId(),
-  },
-];
 
 interface RestaurantCardProp {
   name: string;
@@ -366,6 +255,8 @@ export default function SearchScreen() {
             justifyContent: "center",
           }}
         >
+
+        
           <ImageBackground
             source={require("../../assets/images/dine.png")}
             style={{
@@ -500,15 +391,6 @@ export default function SearchScreen() {
                 navigation={navigation}
               />
             )}
-            contentContainerStyle={
-              {
-                // flex: 1 ,
-                // padding: 10,
-                // width: width * 0.25,
-                // gap: 10,
-                // height: height * 0.3,
-              }
-            }
           />
         </ScrollView>
       </View>

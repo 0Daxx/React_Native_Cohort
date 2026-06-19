@@ -22,6 +22,9 @@ import ProfileScreen from "../navigator/ProfileScreen";
 
 import SearchScreen from "../SearchScreen";
 
+import DineImg from "../../../assets/images/dine.png";
+// import dine from "../../../assets"
+
 const FILTERS = [
   { icon1: "leaf-outline", icon2: "leaf", label: "Near & Fast", id: 1 },
   { icon1: "star-outline", icon2: "star", label: "Top Rated", id: 2 },
@@ -29,12 +32,12 @@ const FILTERS = [
   { icon1: "cash-outline", icon2: "cash", label: "Offers", id: 4 },
 ];
 
-import { useNavigation } from "@react-navigation/native";
+// import { useNavigation } from "@react-navigation/native";
 
 export default function HomeScreen() {
   const [isVeg, setIsVeg] = useState(false);
   const [searchQuery, setSearchQuery] = useState<string>("");
-  const navigation = useNavigation();
+  // const navigation = useNavigation();
   return (  
     <SafeAreaView style={{ flex: 1, backgroundColor: "#fff" }}>
       <ScrollView
@@ -195,7 +198,7 @@ export default function HomeScreen() {
             }}
           >
             <Image
-              source={require("../../assets/images/dine.png")}
+              source={DineImg}
               style={{ width: 120, height: 120, borderRadius: 8 }}
             />
             <Text style={{ fontWeight: "bold" }}>Dinner</Text>
@@ -209,7 +212,7 @@ export default function HomeScreen() {
             }}
           >
             <Image
-              source={require("../../assets/images/dine.png")}
+              source={DineImg }
               style={{
                 width: 120,
                 height: 120,
@@ -274,7 +277,7 @@ export default function HomeScreen() {
             <>
               {/* <Text style={{ color: "#ff0000" }}>Test</Text> */}
               <Image
-                source={require("../../assets/images/discount.png")}
+                source={DineImg}
                 style={{
                   width: 200,
                   height: 160,

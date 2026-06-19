@@ -2,12 +2,12 @@
 import React from "react";
 import { View, Text, Image, Pressable, FlatList , TextInput , ScrollView } from "react-native";
 import { useColorScheme } from "react-native";
-import "./../../global.css";
+// import "./../../global.css" 
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Colors } from "../constants/Colors";
+import { Colors } from "../../constants/Colors";
 import { Ionicons } from "@expo/vector-icons";
 
-import SearchScreen from "./SearchScreen";
+import SearchScreen from "../SearchScreen";
 
 function RestaurantSearchList() {
   return (
@@ -21,15 +21,15 @@ function RestaurantSearchList() {
 
 // restaurant Screen with Restaurant info params :  list of restaurants, filter options, search bar, etc.
 
-const Stack = createStackNavigator();
-function RestaurantStack() {
-  <Stack.Navigator>
-    {/* <Stack.Screen name="Home" component={HomeScreen} />
-      <Stack.Screen name="Profile" component={ProfileScreen} /> */}
-  </Stack.Navigator>;
-}
+// const Stack = createStackNavigator();
+// function RestaurantStack() {
+//   <Stack.Navigator>
+//     {/* <Stack.Screen name="Home" component={HomeScreen} />
+//       <Stack.Screen name="Profile" component={ProfileScreen} /> */}
+//   </Stack.Navigator>;
+// }
 
-import { createStackNavigator } from "@react-navigation/stack";
+// import { createStackNavigator } from "@react-navigation/stack";
 
 
 export default function DineScreen() {
@@ -37,8 +37,8 @@ export default function DineScreen() {
     <SafeAreaView
       style={{
         flex: 1,
-        // justifyContent: "center", alignItems: "center"
       }}
+      // justifyContent: "center", alignItems: "center"
     >
       <ScrollView style={{ flex: 1 }} >
         {/* top */}
