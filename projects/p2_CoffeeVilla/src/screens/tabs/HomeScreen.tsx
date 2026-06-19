@@ -23,6 +23,8 @@ import ProfileScreen from "../navigator/ProfileScreen";
 import SearchScreen from "../SearchScreen";
 
 import DineImg from "../../../assets/images/dine.png";
+import SearchBar from "../../components/SearchBar";
+import Dish from "../../components/Dish";
 // import dine from "../../../assets"
 
 const FILTERS = [
@@ -30,10 +32,14 @@ const FILTERS = [
   { icon1: "star-outline", icon2: "star", label: "Top Rated", id: 2 },
   { icon1: "bicycle-outline", icon2: "bicycle", label: "Fast Delivery", id: 3 },
   { icon1: "cash-outline", icon2: "cash", label: "Offers", id: 4 },
+  { icon1: "restaurant-outline", icon2: "restaurant", label: "Veg Only", id: 5 },
+  {label: "Non-Veg Only", icon1: "restaurant-outline", icon2: "restaurant", id: 6},
+  {label: "Healthy", icon1: "heart-outline", icon2: "heart", id: 7},
 ];
 
 // import { useNavigation } from "@react-navigation/native";
-
+import { Dishes } from "../../data/dish";
+import { isColor } from "react-native-reanimated";
 export default function HomeScreen() {
   const [isVeg, setIsVeg] = useState(false);
   const [searchQuery, setSearchQuery] = useState<string>("");
@@ -43,6 +49,7 @@ export default function HomeScreen() {
       <ScrollView
         style={{ flex: 1, backgroundColor: "#fff" }}
         showsVerticalScrollIndicator={false}
+        // className="px-4 bg-black-500 pt-4"
       >
         {/* Header */}
         <View
@@ -123,7 +130,7 @@ export default function HomeScreen() {
             </Pressable>
           </View>
         </View>
-
+              
         {/* Search Bar Component */}
         <View
           style={{
@@ -182,52 +189,28 @@ export default function HomeScreen() {
             />
           </View>
         </View>
+        {/* <SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} isVeg={isVeg} setIsVeg={setIsVeg} /> */}
+        
+        {/* <Dish { ...Dishes[0] } /> */}
 
-        {/* Dinner Option */}
-        <ScrollView
+        {/* <ScrollView></ScrollView> */}
+        <FlatList 
+          data={Dishes}
+          renderItem={({ item }) => <Dish { ...item } />}
+          keyExtractor={(item) => item.id}
           horizontal
           showsHorizontalScrollIndicator={false}
           style={{ marginTop: 16, paddingLeft: 16 }}
-        >
-          <View
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: 8,
-              marginRight: 16,
-            }}
-          >
-            <Image
-              source={DineImg}
-              style={{ width: 120, height: 120, borderRadius: 8 }}
-            />
-            <Text style={{ fontWeight: "bold" }}>Dinner</Text>
-          </View>
-          <View
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: 8,
-              marginRight: 16,
-            }}
-          >
-            <Image
-              source={DineImg }
-              style={{
-                width: 120,
-                height: 120,
-                borderRadius: 8,
-                isFocus: true,
-                tintColor: "#1C9A3D",
-              }}
-            />
-            <Text style={{ fontWeight: "bold" }}>Lunch</Text>
-          </View>
-        </ScrollView>
+        />
+
+        
+        {/* Dinner Option */}
+        
         {/* <HomeTabNavigator /> */}
 
         {/* Filters Section */}
         <View style={{ display: "flex", flexDirection: "row", gap: 8 , marginTop: 16, marginBottom: 16,  }}   >
+
           
         </View>
         <FlatList

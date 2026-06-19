@@ -2,19 +2,16 @@ import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import HomeScreen from '../screens/tabs/HomeScreen';
 import DineScreen from '../screens/tabs/DineScreen';
-import GroceryScreen from '../screens/tabs/GroceryScreen';
 import ProfileScreen from '../screens/tabs/ProfileScreen';
-import EventScreen from '../screens/tabs/EventScreen';
-// import ProfileScreen from './ProfileScreen';
-// import ProfileScreen from '../screens/ProfileScreen';
+
 
 const Tab = createBottomTabNavigator();
 // const Tab = createBottomTabNavigator();
 const TABS = [
   { name: "Home", component: HomeScreen, icon: "home-outline" },
   { name: "Dine", component: DineScreen, icon: "restaurant-outline" },
-  { name: "Grocery", component: GroceryScreen, icon: "cart-outline" },
-  { name: "Event", component: EventScreen, icon: "calendar" },
+  // { name: "Grocery", component: GroceryScreen, icon: "cart-outline" },
+  // { name: "Event", component: EventScreen, icon: "calendar" },
   { name: "Profile", component: ProfileScreen, icon: "person" },
 ];
 
