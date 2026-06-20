@@ -10,11 +10,6 @@ const Tab = createMaterialTopTabNavigator();
 
 
 import ThaliScreen from "../homeTabs/ThaliScreen";
-// import DosaScreen from "../homeTabs/DosaScreen";
-// import PizzaScreen from "../homeTabs/PizzaScreen";
-// import BurgerScreen from "../homeTabs/BurgerScreen";
-// import CoffeeScreen from "../homeTabs/CoffeeScreen";
-
 
 const DISHES = [
   { name: "Thaliii", component: ThaliScreen  , icon: require("../../assets/images/dine.png") },
@@ -61,11 +56,6 @@ export default function HomeDishTabNavigator() {
           />
         ))
       }
-      {/* <Tab.Screen name="Dosa" component={DosaScreen} />
-      <Tab.Screen name="Pizza" component={PizzaScreen} />
-      <Tab.Screen name="Burger" component={BurgerScreen} />
-      <Tab.Screen name="Coffee" component={CoffeeScreen} /> */}
-      {/* <Tab.Screen name="Profile" component={ProfileScreen} /> */}
     </Tab.Navigator>
   );
 }

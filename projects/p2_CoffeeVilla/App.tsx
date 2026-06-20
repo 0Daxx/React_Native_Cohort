@@ -18,7 +18,10 @@ import EventScreen from "./src/screens/tabs/EventScreen";
 import GroceryScreen from "./src/screens/tabs/GroceryScreen";
 import ProfileScreen from "./src/screens/tabs/ProfileScreen";
 
-import RestaurantDetails from "./src/screens/RestaurantDetails";
+import RestaurantDetails from "./src/screens/RestaurantScreen";
+
+
+import CartProvider from "./src/context/CartProvider";
 import {
   NavigationContainer,
   createNativeStackNavigator,
@@ -52,10 +55,18 @@ const RootStack = createStackNavigator<RootStackParamList>();
 
 export default function App() {
   return (
-    <NavigationContainer>
-      <AppNavigator />
-    </NavigationContainer>
+
+    <CartProvider>
+      <NavigationContainer>
+        <AppNavigator />
+      </NavigationContainer>
+    </CartProvider>
   );
+// }
+//     <NavigationContainer>
+//       <AppNavigator />
+//     </NavigationContainer>
+//   );
 }
 
 const styles = StyleSheet.create({

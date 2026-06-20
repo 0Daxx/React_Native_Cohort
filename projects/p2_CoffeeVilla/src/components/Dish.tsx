@@ -1,4 +1,3 @@
-// @ts-nocheck
 
 import { Ionicons } from "@expo/vector-icons";
 import {
@@ -11,24 +10,35 @@ import {
 } from "react-native";
 
 import React from "react";
-import { Dishes, DishProps } from "../data/dish";
+// import { Dishes, DishProps } from "../data/dish";
+import { DishProps } from "../data/mockData";
+import { useContext } from "react"; 
+// import { u}
+import {  CartContext , CartState , CartItem  } from "../context/CartProvider";
 
 export default function Dish({
+  dish_id,
   image,
   name,
   price,
-  restaurantName,
-  veg,
   rating,
+  size,
   distance,
-  id,
-  health,
-  calories,
-  protein,
-  // qty,
-}: DishProps) {
+}: {DishProps : DishProps} ) {
+  const id = dish_id;
+
+  const {
+  cart,
+  addToCart,
+  removeFromCart,
+  increaseQuantity,
+  decreaseQuantity,
+} = useContext(CartContext);
+
+  const cartItems = cart;
   const { width, height } = useWindowDimensions();
-  const [qty, setQty] = React.useState<number>(0);
+  const qty =
+  cart.find((item) => item.dish_id === dish_id)?.quantity || 0;
   return (
     <View
       style={{
@@ -46,7 +56,7 @@ export default function Dish({
       }}
     >
       <ImageBackground
-        source={{ uri: image }}
+        source={{ uri: "https://source.unsplash.com/400x300/?food" }}
         style={{
           width: "100%",
           height: height * 0.28,
@@ -63,14 +73,12 @@ export default function Dish({
         >
           <View
             style={{
-              backgroundColor: veg ? "#2e7d32" : "#b71c1c",
               paddingHorizontal: 8,
               paddingVertical: 4,
               borderRadius: 999,
             }}
           >
             <Text style={{ color: "#fff", fontSize: 12, fontWeight: "600" }}>
-              {veg ? "Veg" : "Non-Veg"}
             </Text>
           </View>
           <View
@@ -93,7 +101,7 @@ export default function Dish({
               {name}
             </Text>
             <Text style={{ color: "#ddd", marginTop: 4 }}>
-              {restaurantName}
+              {/* {restaurantName} */}
             </Text>
           </View>
           <View>
@@ -113,10 +121,8 @@ export default function Dish({
               {qty > 0 && (
                 <Pressable
                   onPress={
-                    () => setQty(qty - 1)
-                    // console.log("Remove from cart")
+                    () => decreaseQuantity(dish_id)
                   }
-                  // style={{ backgroundColor: "#b3ff00", padding: 6, borderRadius: 5, marginBottom: 4 }}
                 >
                   <Ionicons
                     name="remove-outline"
@@ -132,7 +138,16 @@ export default function Dish({
                 <Text style={{ color: "#fff" }}> {qty} </Text>
               )}
               <Pressable
-                onPress={() => setQty(qty + 1)}
+                onPress={() => {
+                  console.log("Add to cart");
+                  {
+                    qty === 0 ? addToCart({ dish_id: dish_id, name, price, image, rating, size: "small", quantity: 1 }) :
+                    increaseQuantity(dish_id)
+                    // null 
+                  }
+                  // increaseQuantity(dish_id)
+                }
+                  }
                 style={{
                   // backgroundColor: "#1c9a3d",
                   padding: 6,
@@ -155,9 +170,9 @@ export default function Dish({
         </View>
 
         <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
-          <Text style={{ color: "#bbb" }}>{calories} cal</Text>
-          <Text style={{ color: "#bbb" }}>{protein}g protein</Text>
-          <Text style={{ color: "#bbb" }}>Health: {health}</Text>
+          {/* <Text style={{ color: "#bbb" }}>{calories} cal</Text> */}
+          {/* <Text style={{ color: "#bbb" }}>{protein}g protein</Text> */}
+          {/* <Text style={{ color: "#bbb" }}>Health: {health}</Text> */}
         </View>
 
         <View
@@ -168,7 +183,6 @@ export default function Dish({
           }}
         >
           <Ionicons name="heart" size={20} color="#b3ff00" />
-          {/* <Text style={{ color: "#fff" }}>#{id}</Text> */}
         </View>
       </View>
     </View>

@@ -1,10 +1,18 @@
 // @ts-nocheck
 import React from "react";
-import { View, Text, Image, Pressable, FlatList , TextInput , ScrollView } from "react-native";
+import {
+  View,
+  Text,
+  Image,
+  Pressable,
+  FlatList,
+  TextInput,
+  ScrollView,
+} from "react-native";
 import { useColorScheme } from "react-native";
-// import "./../../global.css" 
+// import "./../../global.css"
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Colors } from "../../constants/Colors";
+import { BrandColors } from "../../constants/Colors";
 import { Ionicons } from "@expo/vector-icons";
 
 import SearchScreen from "../SearchScreen";
@@ -19,28 +27,16 @@ function RestaurantSearchList() {
   );
 }
 
-// restaurant Screen with Restaurant info params :  list of restaurants, filter options, search bar, etc.
-
-// const Stack = createStackNavigator();
-// function RestaurantStack() {
-//   <Stack.Navigator>
-//     {/* <Stack.Screen name="Home" component={HomeScreen} />
-//       <Stack.Screen name="Profile" component={ProfileScreen} /> */}
-//   </Stack.Navigator>;
-// }
-
-// import { createStackNavigator } from "@react-navigation/stack";
-
-
 export default function DineScreen() {
-  return (
+    const [searchQuery, setSearchQuery] = React.useState("");
+    return (
     <SafeAreaView
       style={{
         flex: 1,
       }}
       // justifyContent: "center", alignItems: "center"
     >
-      <ScrollView style={{ flex: 1 }} >
+      <ScrollView style={{ flex: 1 }}>
         {/* top */}
         <View
           style={{
@@ -92,6 +88,38 @@ export default function DineScreen() {
             />
           </View>
         </View>
+
+        <View
+          style={{
+            flexDirection: "row",
+            alignItems: "center",
+            borderWidth: 1,
+            borderColor: "gray",
+            minWidth: "80%",
+            paddingHorizontal: 10,
+          }}
+        >
+          <Ionicons name="search-outline" size={24} color="#565656" />
+          <TextInput
+            value={searchQuery}
+            onChangeText={setSearchQuery}
+            placeholder="Restaurant, location or mood..."
+            style={{ flex: 1, marginLeft: 10 }}
+          />
+          <Pressable
+            hitSlop={{ top: 30, bottom: 30, left: 30, right: 30 }}
+            onPress={() => setSearchQuery("")}
+            style={{ marginRight: 30 }}
+          >
+            {searchQuery.length > 0 && (
+              <Ionicons name="close-outline" size={28} color="#282828" />
+            )}
+          </Pressable>
+          {/* <Ionicons name="close-outline" size={24} color="#282828" style={{ marginRight: 20 }} /> */}
+
+          <Ionicons name="mic-outline" size={24} color="#282828" />
+        </View>
+        {/* Filter Options */}
         <View
           style={{
             flexDirection: "row",
@@ -103,7 +131,7 @@ export default function DineScreen() {
             alignItems: "center",
           }}
         >
-          <Pressable
+          {/* <Pressable
             style={{
               flexDirection: "row",
               gap: 10,
@@ -119,9 +147,9 @@ export default function DineScreen() {
             <Ionicons name="options-outline" size={24} color="black" />
             <Text> Filter </Text>
             <Ionicons name="chevron-down-outline" size={24} color="black" />
-          </Pressable>
+          </Pressable> */}
 
-          <Pressable
+          {/* <Pressable
             style={{
               flexDirection: "row",
               gap: 10,
@@ -130,8 +158,8 @@ export default function DineScreen() {
               // margin: 10,
               borderRadius: 15,
               width: "22%",
-              backgroundColor: Colors.primary,
-              color: Colors.white,
+              backgroundColor: BrandColors.primary,
+              color: BrandColors.white,
               alignItems: "center",
               // borderWidth: 1,
               // borderColor: "#000",
@@ -140,18 +168,17 @@ export default function DineScreen() {
             <Ionicons
               name="options-outline"
               size={24}
-              color={Colors.white}
+              color={BrandColors.white}
               style={{ marginRight: 5 }}
             />
-            <Text style={{ color: Colors.white, fontWeight: "bold" }}>
+            <Text style={{ color: BrandColors.white, fontWeight: "bold" }}>
               {" "}
               Menu List
             </Text>
-          </Pressable>
+          </Pressable> */}
         </View>
 
         {/* LIST OF EXPLORE RESTAURANTS */}
-        
 
         <SearchScreen />
         {/* </View> */}

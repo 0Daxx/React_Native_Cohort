@@ -31,14 +31,12 @@ interface RestaurantCardProp {
   // distance: number;
 }
 
-import { RestaurantProps } from "../data/mockData";
-
-// type ExploreRestaurantCardProp = Omit<
-//   RestaurantCardProp,
-//   "mood" | "location"
-// > & {
-//   distance: number;
-// };
+type ExploreRestaurantCardProp = Omit<
+  RestaurantCardProp,
+  "mood" | "location"
+> & {
+  distance: number;
+};
 
 // COMPONENTS
 function RestaurantCard({
@@ -117,10 +115,10 @@ function ExploreRestaurantCard({
   veg,
   rating,
   distance,
-  // navigation,
+  navigation,
 }: {
-  RestaurantProps: RestaurantProps;
-  // navigation: any;
+  ExploreRestaurantCardProp;
+  navigation: any;
 }) {
   return (
     <Pressable
@@ -177,11 +175,11 @@ export default function SearchScreen() {
   const navigation = useNavigation();
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: "#1F2937" }}>
-      <ScrollView style={{ flex: 1 }}>
+    <SafeAreaView  style={{ flex: 1, backgroundColor: "#1F2937"   }  }>
+      <ScrollView style={{ flex: 1 }} >
         <View
           style={{
-            // flex: 1,
+            flex: 1,
             justifyContent: "center",
             alignItems: "center",
             // backgroundColor: "#1F2937"
@@ -195,9 +193,6 @@ export default function SearchScreen() {
               borderWidth: 1,
               borderColor: "gray",
               minWidth: "80%",
-              maxWidth: "90%",
-              backgroundColor: "#ff0000",
-              borderRadius: 30,
               paddingHorizontal: 10,
             }}
           >
@@ -398,6 +393,7 @@ export default function SearchScreen() {
                 {" "}
                 Explore Other Restaurants{" "}
               </Text>
+              {/* OTHER restaurants */}
               <FlatList
                 data={RESTAURANTS}
                 horizontal

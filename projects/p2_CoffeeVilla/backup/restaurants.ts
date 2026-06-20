@@ -22,6 +22,19 @@ const randomId = () => {
   //   random,
   // });
 
+   /*  DATA 
+
+   Restaurant : details about restaurant (name, image, veg/non-veg, rating, mood, location)
+    Each Restaurant has Dishes : details about dishes (name, image, veg/non-veg, rating, price, restaurantId , size : small, medium , large , qty , cuisine: north indian, south indian, chinese, italian, mexican , etc , health: high, medium, low, calories, protein, etc , nutrition : {calories, protein, carbs, fats} , ingredients: [string] , description: string  , reviews: [{ userId, rating, comment, date }] , availability: boolean , discount: number (0-100) , finalPrice: number (calculated from price and discount) , deliveryTime: number (in minutes) , deliveryFee: number (in rupees) , deliveryAddress: string , deliveryInstructions: string , reviews: [{ userId, rating, comment, date }]  , etc )
+
+
+    30 Restaurants , each has 10 dishes 
+
+    Dishes Example : paneer butter masala (veg) , chicken curry (non-veg) , veg biryani (veg) , chicken biryani (non-veg) , veg noodles (veg) , chicken noodles (non-veg) , veg thali (veg) , non-veg thali (non-veg) , veg pizza (veg) , chicken pizza (non-veg) , veg burger (veg) , non-veg burger (non-veg) , pizza , butger , noodles, 
+
+  
+  */
+
 };
 
 export const RESTAURANTS: RestaurantProps[] = [

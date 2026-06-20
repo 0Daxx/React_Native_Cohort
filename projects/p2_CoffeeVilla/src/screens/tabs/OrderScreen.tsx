@@ -1,104 +1,160 @@
-// @ts-nocheck
-import {
-  View,
-  Text,
-  ImageBackground,
-  Pressable,
-  useWindowDimensions,
-  ScrollView,
-} from "react-native";
-
-import { useNavigation } from "@react-navigation/native";
+import { FlatList, Pressable, Text, View } from "react-native";
+import React, { useContext } from "react";
 import { Ionicons } from "@expo/vector-icons";
-import { useState } from "react";
+import { useNavigation } from "@react-navigation/native";
+import { CartContext, CartItem } from "../../context/CartProvider";
+
+
 import { SafeAreaView } from "react-native-safe-area-context";
 
-// Order Material Top Tab Navigator
-const OrderList = () => {};
 
-// dish order component
-function OrderDish() {
+function OrderDish({
+  dish,
+  onIncrease,
+  onDecrease,
+}: {
+  dish: CartItem;
+  onIncrease: (dish_id: string) => void;
+  onDecrease: (dish_id: string) => void;
+}) {
   return (
     <View
       style={{
         width: "90%",
-        height: "auto",
-        borderRadius: 16,
-        backgroundColor: "#ffffff",
-        padding: 16,
+        backgroundColor: "#f9f9f9",
+        padding: 15,
+        borderRadius: 10,
+        flexDirection: "row",
+        alignItems: "center",
         justifyContent: "space-between",
-        marginVertical: 8,
-        shadowColor: "#000",
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.1,
-        shadowRadius: 8,
-        elevation: 5,
       }}
     >
-      {/* Edit Button */}
-      <Pressable style={{ flexDirection: "row", alignItems: "center", gap: 4, alignSelf: "flex-end", marginBottom: 8 }}>
-        <Text style={{ fontSize: 16, color: "#0b8600", fontWeight: "600" }}>Edit</Text>
-        <Ionicons name="create" size={18} color="#0b8600" />
-      </Pressable>
+      <View>
+        <Text style={{ fontSize: 16, fontWeight: "600" }}>{dish.name}</Text>
+        <Text style={{ fontSize: 14, color: "#777" }}>
+          ${dish.price.toFixed(2)}
+        </Text>
+      </View>
 
-      {/* Dish Name */}
-      <Text style={{ fontWeight: "bold", textAlign: "left", fontSize: 16, color: "#1a1a1a", marginBottom: 8 }}>
-        Love Special Chowmein
-      </Text>
-
-      {/* Price and Quantity */}
-      <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center", gap: 12 }}>
-        <Text style={{ fontWeight: "700", fontSize: 18, color: "#0b8600" }}>$100</Text>
-        <View
-          style={{
-            flexDirection: "row",
-            width: "35%",
-            borderWidth: 1.5,
-            borderColor: "#0b8600",
-            justifyContent: "space-between",
-            alignItems: "center",
-            borderRadius: 10,
-            paddingVertical: 6,
-            paddingHorizontal: 10,
-            backgroundColor: "#f5fff5",
-          }}
+      <View style={{ flexDirection: "row", alignItems: "center", gap: 10 }}>
+        <Pressable
+          onPress={() => onDecrease(dish.dish_id)}
+          style={{ backgroundColor: "#b3ff00", padding: 6, borderRadius: 5 }}
         >
-          <Pressable hitSlop={8}>
-            <Ionicons name="remove" size={20} color="#0b8600" />
-          </Pressable>
-          <Text style={{ fontWeight: "bold", textAlign: "center", color: "#0b8600" }}>1</Text>
-          <Pressable hitSlop={8}>
-            <Ionicons name="add" size={20} color="#0b8600" />
-          </Pressable>
-        </View>
+          <Ionicons
+            name="remove-outline"
+            size={20}
+            color="#333"
+          />
+        </Pressable>
+
+        <Text style={{ fontSize: 16, fontWeight: "600" }}>{dish.quantity}</Text>
+
+        <Pressable
+          onPress={() => onIncrease(dish.dish_id)}
+          style={{ backgroundColor: "#0f8002", padding: 6, borderRadius: 5 }}
+        >
+          <Ionicons
+            name="add-outline"
+            size={20}
+            color="#fff"
+          />
+        </Pressable>
       </View>
     </View>
   );
 }
 
 export default function OrderScreen() {
-  const { width, height } = useWindowDimensions();
-  const [orderList, setOrderList] = useState([]);
+  const navigation = useNavigation();
+
+  const {
+    cart,
+    // addToCart,
+    clearCart,
+    increaseQuantity,
+    decreaseQuantity,
+  } = useContext(CartContext);
+
+  if (cart.length === 0) {
+    return (
+      <SafeAreaView
+        style={{
+          flex: 1,
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <Ionicons
+          name="cart-outline"
+          size={80}
+          color="#999"
+        />
+
+        <Text
+          style={{
+            fontSize: 22,
+            fontWeight: "700",
+            marginTop: 16,
+          }}
+        >
+          Your cart is empty
+        </Text>
+      </SafeAreaView>
+    );
+  }
+
   return (
     <SafeAreaView
       style={{
         flex: 1,
-        // justifyContent: "center",
         alignItems: "center",
       }}
-      // style={{ justifyContent: "center", alignItems: "center"}}
     >
-      <View style={{ width: "90%", flexDirection: "row", justifyContent: "space-between", alignItems: "center"}}>
-        <Text style={{ fontSize: 24, fontWeight: "bold", marginTop: 20  , textAlign: "left"}} >Order </Text>
+      <View
+        style={{
+          width: "90%",
+          flexDirection: "row",
+          justifyContent: "space-between",
+          alignItems: "center",
+          marginVertical: 20,
+        }}
+      >
+        <Text
+          style={{
+            fontSize: 24,
+            fontWeight: "bold",
+          }}
+        >
+          Order
+        </Text>
+
+        <Pressable onPress={clearCart}>
+          <Ionicons
+            name="trash-outline"
+            size={24}
+            color="#ff4444"
+          />
+        </Pressable>
       </View>
 
-      <OrderDish />
+      <FlatList
+        data={cart}
+        keyExtractor={(item) => item.dish_id}
+        renderItem={({ item }: { item: CartItem }) => (
+          <OrderDish
+            dish={item}
+            onIncrease={increaseQuantity}
+            onDecrease={decreaseQuantity}
+          />
+        )}
+        contentContainerStyle={{
+          alignItems: "center",
+          gap: 10,
+          paddingBottom: 30,
+        }}
+        showsVerticalScrollIndicator={false}
+      />
     </SafeAreaView>
   );
 }
-
-
-/*
-
-
-*/

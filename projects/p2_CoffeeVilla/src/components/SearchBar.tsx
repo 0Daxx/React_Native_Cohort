@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { View , TextInput , Pressable , StyleSheet , Switch  } from "react-native";
 // import { View } from "react-native";
-import { Colors } from "../constants/Colors";
+import { BrandColors } from "../constants/Colors";
 
 export default function SearchBar({ searchQuery, setSearchQuery , isVeg , setIsVeg } : { searchQuery: string, setSearchQuery: (query: string) => void , isVeg: boolean, setIsVeg: (isVeg: boolean) => void }) {
 <View
@@ -37,7 +37,7 @@ export default function SearchBar({ searchQuery, setSearchQuery , isVeg , setIsV
       console.log("Search icon pressed");
     }}
   >
-    <Ionicons name="search" size={24} color={Colors.primary} />
+    <Ionicons name="search" size={24} color={BrandColors.primary} />
   </Pressable>
   <TextInput
     value={searchQuery}
@@ -47,7 +47,7 @@ export default function SearchBar({ searchQuery, setSearchQuery , isVeg , setIsV
     style={{ flex: 1 }}
   />
   <Pressable style={{ borderColor: "#818181", borderRadius: 20, padding: 8 }}>
-    <Ionicons name="mic" size={24} color={Colors.primary} />
+    <Ionicons name="mic" size={24} color={BrandColors.primary} />
   </Pressable>
   <View style={{ display: "flex", alignItems: "center", gap: 8 }}>
     <Text style={{ color: "#3B82F6", fontWeight: "bold" }}>

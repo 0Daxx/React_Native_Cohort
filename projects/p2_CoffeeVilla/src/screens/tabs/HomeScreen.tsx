@@ -13,11 +13,16 @@ import {
   StyleSheet,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { Colors } from "../../constants/Colors";
+// import BrandColors from "../constants/Colors";
+// import Colors from "../constants/Colors";
+import { BrandColors } from "../../constants/Colors";
 import BarText from "../../components/BarText";
 import HomeDishTabNavigator from "../../navigator/HomeDishTabNavigator";
 import { SafeAreaView } from "react-native-safe-area-context";
 import ProfileScreen from "../navigator/ProfileScreen";
+
+import HomeTabNavigator from "../../navigator/HomeTabNavigator";
+
 // import { ScrollView } from "react-native-gesture-handler";
 
 import SearchScreen from "../SearchScreen";
@@ -25,7 +30,6 @@ import SearchScreen from "../SearchScreen";
 import DineImg from "../../../assets/images/dine.png";
 import SearchBar from "../../components/SearchBar";
 import Dish from "../../components/Dish";
-// import dine from "../../../assets"
 
 const FILTERS = [
   { icon1: "leaf-outline", icon2: "leaf", label: "Near & Fast", id: 1 },
@@ -37,20 +41,25 @@ const FILTERS = [
   {label: "Healthy", icon1: "heart-outline", icon2: "heart", id: 7},
 ];
 
-// import { useNavigation } from "@react-navigation/native";
-import { Dishes } from "../../data/dish";
 import { isColor } from "react-native-reanimated";
+import { DISHES } from "../../data/mockData";
+
+import { useContext } from "react";
+import { CartContext } from "../../context/CartProvider";
+
 export default function HomeScreen() {
+  const {cartItem, setCartItem} = useContext(CartContext);
   const [isVeg, setIsVeg] = useState(false);
   const [searchQuery, setSearchQuery] = useState<string>("");
-  // const navigation = useNavigation();
+
+  const dish1 = DISHES[0];
   return (  
     <SafeAreaView style={{ flex: 1, backgroundColor: "#fff" }}>
       <ScrollView
         style={{ flex: 1, backgroundColor: "#fff" }}
-        showsVerticalScrollIndicator={false}
-        // className="px-4 bg-black-500 pt-4"
-      >
+        showsVerticalScrollIndicator>
+
+        {/* <Dish { ...dish1 } /> */}
         {/* Header */}
         <View
           style={{
@@ -72,14 +81,14 @@ export default function HomeScreen() {
             <Ionicons
               name="location-outline"
               size={30}
-              color={Colors.primary}
+              color={BrandColors.primary}
             />
             <View style={{ display: "flex", alignItems: "center", gap: 4 }}>
               <Text style={{ fontWeight: "bold", fontSize: 18 }}>Home</Text>
               <Ionicons
                 name="chevron-down-outline"
                 size={30}
-                color={Colors.secondary}
+                color={BrandColors.secondary}
               />
             </View>
             <Text style={{ color: "#9CA3AF" }}>Karol Bagh, New Delhi</Text>
@@ -163,7 +172,7 @@ export default function HomeScreen() {
             }}
           >
             <Ionicons
-            name="search" size={24} color={Colors.primary} 
+            name="search" size={24} color={BrandColors.primary} 
             />
           </Pressable>
           <TextInput
@@ -176,7 +185,7 @@ export default function HomeScreen() {
           <Pressable
             style={{ borderColor: "#818181", borderRadius: 20, padding: 8 }}
           >
-            <Ionicons name="mic" size={24} color={Colors.primary} />
+            <Ionicons name="mic" size={24} color={BrandColors.primary} />
           </Pressable>
           <View style={{ display: "flex", alignItems: "center", gap: 8 }}>
             <Text style={{ color: "#3B82F6", fontWeight: "bold" }}>
@@ -189,19 +198,25 @@ export default function HomeScreen() {
             />
           </View>
         </View>
+
+
         {/* <SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} isVeg={isVeg} setIsVeg={setIsVeg} /> */}
         
-        {/* <Dish { ...Dishes[0] } /> */}
 
-        {/* <ScrollView></ScrollView> */}
+        {/* DISH */}
+
         <FlatList 
-          data={Dishes}
-          renderItem={({ item }) => <Dish { ...item } />}
-          keyExtractor={(item) => item.id}
+          data={DISHES}
+          // data={DISHES.filter((dish) => (isVeg ? dish.isVeg : true)).filter((dish) => dish.name.toLowerCase().includes(searchQuery.toLowerCase()))}
+          // renderItem={({ item }) => <Dish { ...item } />}
+          keyExtractor={(item) => item.dish_id }
           horizontal
+          renderItem={({ item }) => <Dish {...item} />}
           showsHorizontalScrollIndicator={false}
           style={{ marginTop: 16, paddingLeft: 16 }}
         />
+
+        
 
         
         {/* Dinner Option */}
@@ -209,10 +224,6 @@ export default function HomeScreen() {
         {/* <HomeTabNavigator /> */}
 
         {/* Filters Section */}
-        <View style={{ display: "flex", flexDirection: "row", gap: 8 , marginTop: 16, marginBottom: 16,  }}   >
-
-          
-        </View>
         <FlatList
           horizontal
           showsHorizontalScrollIndicator={false}
@@ -234,7 +245,7 @@ export default function HomeScreen() {
                 marginRight: 12,
                 }}
             >
-              <Ionicons name={filter.icon1} size={24} color={Colors.white} />
+              <Ionicons name={filter.icon1} size={24} color={BrandColors.white} />
               <Text>{filter.label}</Text>
             </View>
           )}

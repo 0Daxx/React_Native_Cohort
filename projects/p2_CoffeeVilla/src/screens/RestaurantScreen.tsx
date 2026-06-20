@@ -113,14 +113,14 @@ function ExploreRestaurantCard({
   );
 }
 
-export default function RestaurantDetails({ route } : unknown ) {
+export default function RestaurantScreen({ route } : unknown ) {
   const { name, image, veg, rating, distance } = route.params;
   const { width, height } = useWindowDimensions();
   const navigation = useNavigation();
 
   return (
     <SafeAreaView style={styles.safeArea}>
-      <ScrollView>
+      <ScrollView style={{ flex: 1 }} >
 
       <ImageBackground
         source={require("../../assets/images/dine.png")}
@@ -131,6 +131,7 @@ export default function RestaurantDetails({ route } : unknown ) {
         }}
       >
         <Text style={styles.welcomeText}>Welcome to Coffee Villa!</Text>
+        <Text style={styles.welcomeText}>{name}</Text>
         <View style={styles.headerRow}>
           <Ionicons
             name="chevron-back-outline"
@@ -188,6 +189,7 @@ export default function RestaurantDetails({ route } : unknown ) {
           />
         )}
       />
+      
       </ScrollView>
 
     </SafeAreaView>

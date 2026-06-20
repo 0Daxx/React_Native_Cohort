@@ -25,9 +25,17 @@ export default function HomeTabNavigator() {
   const { cart } = React.useContext(CartContext);
   const cartItemCount = cart.reduce((total, item) => total + item.quantity, 0);
   return (
-
-    <Tab.Navigator screenOptions={{ headerShown: false }}>
-      <Tab.Screen name="Home" component={HomeScreen} options={{ tabBarIcon: () => <Ionicons name={"home-outline"} size={24} color="black" /> }} />
+    <Tab.Navigator screenOptions={{ headerShown: false, animation: "fade" }  }>
+      <Tab.Screen
+        name="Home"
+        component={HomeScreen}
+        options={{
+          tabBarIcon: () => (
+            <Ionicons name={"home-outline"} size={24} color="black" />
+          ),
+          animation: 'shift' ,
+        }}
+      />
       <Tab.Screen
         name="Search"
         component={SearchScreen}
