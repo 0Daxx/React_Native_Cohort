@@ -6,11 +6,9 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 import { CartContext, CartItem } from "../context/CartProvider";
 
-
-
 export default function CheckoutScreen() {
   const navigation = useNavigation();
-  const { cart } = useContext(CartContext);
+  const { cart , clearCart } = useContext(CartContext);
 
   return (
     <SafeAreaView>
@@ -33,12 +31,31 @@ export default function CheckoutScreen() {
         </Text>
       </View>
 
-      
-      <Pressable style={{ padding: 20 }}>
-        <Text style={{ fontSize: 18, fontWeight: "600", color: "#0f8002" }}>
-          Pay Now 
+      <Pressable
+        onPress={() => {
+          // Handle payment logic here
+          alert("Payment Successful!");
+          // empty cart 
+          // cart.removeAll();
+          clearCart();
+          navigation.navigate("Home");
+        }}
+
+        // TODO : Add the order details to the order history 
+        style={{
+          backgroundColor: "#0f8002",
+          borderRadius: 10,
+          margin: 20,
+          alignItems: "center",
+          justifyContent: "center",
+          padding: 10,
+        }}
+      >
+        {/* style={{ padding: 20 }}> */}
+        <Text style={{ fontSize: 18, fontWeight: "600", color: "#c6c6c6" }}>
+          Pay Now
         </Text>
-      </Pressable> 
+      </Pressable>
     </SafeAreaView>
   );
 }

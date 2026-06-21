@@ -45,11 +45,13 @@ import { DISHES } from "../../data/mockData";
 
 import { useContext } from "react";
 import { CartContext } from "../../context/CartProvider";
+import { useNavigation } from "@react-navigation/native";
 
 export default function HomeScreen() {
   const {cartItem, setCartItem} = useContext(CartContext);
   const [isVeg, setIsVeg] = useState(false);
   const [searchQuery, setSearchQuery] = useState<string>("");
+  const navigation = useNavigation();
 
   const dish1 = DISHES[0];
   return (  
