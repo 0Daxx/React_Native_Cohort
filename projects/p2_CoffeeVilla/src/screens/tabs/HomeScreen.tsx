@@ -21,7 +21,6 @@ import HomeDishTabNavigator from "../../navigator/HomeDishTabNavigator";
 import { SafeAreaView } from "react-native-safe-area-context";
 import ProfileScreen from "../navigator/ProfileScreen";
 
-import HomeTabNavigator from "../../navigator/HomeTabNavigator";
 
 // import { ScrollView } from "react-native-gesture-handler";
 
@@ -59,13 +58,11 @@ export default function HomeScreen() {
         style={{ flex: 1, backgroundColor: "#fff" }}
         showsVerticalScrollIndicator>
 
-        {/* <Dish { ...dish1 } /> */}
         {/* Header */}
         <View
           style={{
             display: "flex",
             flexDirection: "row",
-            // alignItems: "center",
             justifyContent: "space-between",
             padding: 16,
           }}
@@ -197,31 +194,18 @@ export default function HomeScreen() {
               onValueChange={setIsVeg}
             />
           </View>
-        </View>
-
-
-        {/* <SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} isVeg={isVeg} setIsVeg={setIsVeg} /> */}
-        
+        </View>        
 
         {/* DISH */}
 
         <FlatList 
           data={DISHES}
-          // data={DISHES.filter((dish) => (isVeg ? dish.isVeg : true)).filter((dish) => dish.name.toLowerCase().includes(searchQuery.toLowerCase()))}
-          // renderItem={({ item }) => <Dish { ...item } />}
           keyExtractor={(item) => item.dish_id }
           horizontal
           renderItem={({ item }) => <Dish {...item} />}
           showsHorizontalScrollIndicator={false}
           style={{ marginTop: 16, paddingLeft: 16 }}
         />
-
-        
-
-        
-        {/* Dinner Option */}
-        
-        {/* <HomeTabNavigator /> */}
 
         {/* Filters Section */}
         <FlatList
@@ -298,8 +282,7 @@ export default function HomeScreen() {
             backgroundColor: "#ab1717",
           }}
         />
-
-        {/* <BarText text="ORDER YOUR MOOD DISHES" /> */}
+        
       </ScrollView>
     </SafeAreaView>
   );

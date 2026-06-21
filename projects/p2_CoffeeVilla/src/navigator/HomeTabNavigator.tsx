@@ -17,6 +17,10 @@ const TABS = [
   { name: "My Profile", component: ProfileScreen, icon: "person" },
 ];
 
+import { useContext } from "react";
+import CartScreen from "../screens/CartScreen";
+
+import OrderNavigator from "./OrderNavigator";
 import { Ionicons } from "@expo/vector-icons";
 
 import { CartContext } from "../context/CartProvider";
@@ -48,7 +52,7 @@ export default function HomeTabNavigator() {
       />
       <Tab.Screen
         name="Order"
-        component={OrderScreen}
+        component={OrderNavigator}
         options={{
           headerShown: false,
           tabBarIcon: () => <Ionicons name={"cart"} size={24} color="black" />,
