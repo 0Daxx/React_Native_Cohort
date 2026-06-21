@@ -8,7 +8,11 @@ import HomeDishTabNavigator from "./HomeDishTabNavigator";
 import HomeTabNavigator from "./HomeTabNavigator";
 import { Ionicons } from "@expo/vector-icons";
 import CartScreen from "../screens/CartScreen";
-import { cartItem  , setCartItem } from "../context/CartProvider";
+import { cartItem, setCartItem } from "../context/CartProvider";
+
+import { useContext } from "react";
+import { CartContext } from "../context/CartProvider";
+// import SearchScreen from "../screens/SearchScreen";
 // }
 // import {  }
 
@@ -21,6 +25,7 @@ export type RootStackParamList = {
   Cart: undefined;
 };
 
+
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export default function AppNavigator() {
@@ -32,7 +37,7 @@ export default function AppNavigator() {
         component={HomeTabNavigator}
         options={{ headerShown: false }}
       />
-      <Stack.Screen name="Search" component={SearchScreen  }   />
+      <Stack.Screen name="Search" component={SearchScreen} />
       <Stack.Screen
         name="RestaurantDetails"
         component={RestaurantScreen}

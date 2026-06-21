@@ -4,9 +4,9 @@ import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { CartContext, CartItem } from "../../context/CartProvider";
 
-
 import { SafeAreaView } from "react-native-safe-area-context";
 
+import CheckoutScreen from "../CheckoutScreen";
 
 function OrderDish({
   dish,
@@ -41,11 +41,7 @@ function OrderDish({
           onPress={() => onDecrease(dish.dish_id)}
           style={{ backgroundColor: "#b3ff00", padding: 6, borderRadius: 5 }}
         >
-          <Ionicons
-            name="remove-outline"
-            size={20}
-            color="#333"
-          />
+          <Ionicons name="remove-outline" size={20} color="#333" />
         </Pressable>
 
         <Text style={{ fontSize: 16, fontWeight: "600" }}>{dish.quantity}</Text>
@@ -54,11 +50,7 @@ function OrderDish({
           onPress={() => onIncrease(dish.dish_id)}
           style={{ backgroundColor: "#0f8002", padding: 6, borderRadius: 5 }}
         >
-          <Ionicons
-            name="add-outline"
-            size={20}
-            color="#fff"
-          />
+          <Ionicons name="add-outline" size={20} color="#fff" />
         </Pressable>
       </View>
     </View>
@@ -85,11 +77,7 @@ export default function OrderScreen() {
           alignItems: "center",
         }}
       >
-        <Ionicons
-          name="cart-outline"
-          size={80}
-          color="#999"
-        />
+        <Ionicons name="cart-outline" size={80} color="#999" />
 
         <Text
           style={{
@@ -130,11 +118,7 @@ export default function OrderScreen() {
         </Text>
 
         <Pressable onPress={clearCart}>
-          <Ionicons
-            name="trash-outline"
-            size={24}
-            color="#ff4444"
-          />
+          <Ionicons name="trash-outline" size={24} color="#ff4444" />
         </Pressable>
       </View>
 
@@ -155,6 +139,61 @@ export default function OrderScreen() {
         }}
         showsVerticalScrollIndicator={false}
       />
+
+      {/* Total */}
+      <View
+        style={{
+          width: "90%",
+          flexDirection: "row",
+          justifyContent: "space-between",
+          alignItems: "center",
+          marginVertical: 20,
+        }}
+      >
+        <Text
+          style={{
+            fontSize: 16,
+            fontWeight: "600",
+          }}
+        >
+          Total
+        </Text>
+        <Text
+          style={{
+            fontSize: 16,
+            fontWeight: "600",
+          }}
+        >
+          $
+          {cart
+            .reduce((total, item) => total + item.price * item.quantity, 0)
+            .toFixed(2)}
+          {/* ${ cart.reduce((total, item) => total + item.price * item.quantity, 0).toFixed(2) }*/}
+        </Text>
+      </View>
+      <Pressable
+          // onPress={() => navigation.navigate(<CheckoutScreen />)}
+          onPress={() => navigation.navigate('Checkout' , { cart } )}
+          // onPress={() => navigation.navigate('Checkout' , { cart }  , { screen: 'Checkout' })}
+          // onPress={() => navigation.navigate('Checkout' , { cart }  , { screen: 'Checkout' })}
+        style={{
+          backgroundColor: "#0f8002",
+          padding: 15,
+          borderRadius: 10,
+          width: "90%",
+        }}
+      >
+        <Text
+          style={{
+            fontSize: 16,
+            fontWeight: "600",
+            color: "#fff",
+            textAlign: "center",
+          }}
+        >
+          Checkout
+        </Text>
+      </Pressable>
     </SafeAreaView>
   );
 }
