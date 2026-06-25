@@ -12,6 +12,8 @@ export default function CheckoutScreen() {
 
   return (
     <SafeAreaView>
+
+      {/* if cart empty  */}
       <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
         <Text style={{ fontSize: 24, fontWeight: "bold" }}>Checkout</Text>
         <Text style={{ fontSize: 16, color: "#777", marginTop: 10 }}>
@@ -36,8 +38,10 @@ export default function CheckoutScreen() {
           // Handle payment logic here
           alert("Payment Successful!");
           // empty cart 
-          // cart.removeAll();
+
           clearCart();
+          
+          // EMPTY checkout BUG 
           navigation.navigate("Home");
         }}
 

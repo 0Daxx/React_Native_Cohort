@@ -18,7 +18,7 @@ import EventScreen from "./src/screens/tabs/EventScreen";
 import GroceryScreen from "./src/screens/tabs/GroceryScreen";
 import ProfileScreen from "./src/screens/tabs/ProfileScreen";
 
-import RestaurantDetails from "./src/screens/RestaurantScreen";
+import RestaurantScreen from "./src/screens/RestaurantScreen";
 
 
 import CartProvider from "./src/context/CartProvider";
@@ -39,7 +39,7 @@ import AppNavigator from "./src/navigator/AppNavigator";
 export type RootStackParamList = {
   Onboard: undefined;
   Home: undefined;
-  RestaurantDetails: {
+  RestaurantScreen: {
     name: string;
     image: string;
     veg: boolean;
