@@ -1,12 +1,12 @@
 import { StatusBar } from "expo-status-bar";
-import { Text, View, Pressable, Image , FlatList } from "react-native";
+import { Text, View, Pressable, Image , FlatList, Button } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import React from "react";
 
 import { Ionicons } from '@react-native-vector-icons/ionicons/static';
 
 // import NotificationHandler from "../lib/notifications/lecture";
-
+import * as Notifications from "expo-notifications";
 // import { FlatList } from "react-native/types_generated/index";
 // import NotificationExample from "../../utils/NotificationExample";
 // data , components
@@ -48,7 +48,30 @@ const HabitItem = ({ habit }: { habit: HabitProps }) => {
   );
 }
 
+// Local notification example
+Notifications.setNotificationHandler({
+  handleNotification: async () => ({
+    // shouldShowAlert: true,
+    shouldPlaySound: true,
+    shouldSetBadge: true,
+    shouldShowList: true ,
+    shouldShowBanner: true,
+  }),
+});
+
 export default function HabitScreen() {
+
+  async function basic_notification() {
+    await Notifications.scheduleNotificationAsync({
+      content: {
+        title: "Habit Reminder",
+        body: "Don't forget to complete your habit!",
+        sound: true,
+      },
+      trigger: null ,
+    });
+  }
+
   const [Habits, setHabits] = React.useState<HabitProps[]>([
     {
       id: 1,
@@ -81,7 +104,6 @@ export default function HabitScreen() {
     },
   ]);
 
-
   return (
     <SafeAreaView
       style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
@@ -102,13 +124,13 @@ export default function HabitScreen() {
       }
 
       {/* <NotificationExample /> */}
+      {/* Habit List */}
       <FlatList
         data={Habits}
         renderItem={({ item }) => <HabitItem habit={item} />}
         keyExtractor={(item) => item.id.toString()}
       />
-      {/* <Text>Open up App.tsx to start working on your app?? !</Text> */}
-      {/* Habit List */}
+      <Button title="Send Notification" onPress={() => basic_notification()}  >   </Button>
 
       {/* <NotificationHandler /> */}
     </SafeAreaView>
