@@ -6,8 +6,6 @@ import OnboardScreen from "../screens/OnboardScreen";
 import HabitScreen from "../screens/HabitScreen";
 import ProgressScreen from "../screens/ProgressScreen";
 import SettingsScreen from "../screens/SettingsScreen";
-// import Ionicons from "@expo/vector-icons/Ionicons";
-// import Ionicons from '@react-native-vector-icons/ionicons/static';
 import { Ionicons } from '@react-native-vector-icons/ionicons/';
 
 const MyTabs = createBottomTabNavigator({
