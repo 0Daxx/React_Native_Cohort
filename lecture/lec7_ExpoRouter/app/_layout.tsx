@@ -16,6 +16,11 @@ export default function Layout() {
           name="(auth)"
           options={{ title: "Login", headerShown: false }}
         />
+        <Stack.Screen name="(settingDrawer)/index"
+         options={{ title: "User Profile" ,
+          // headerShown: false
+          
+          }} />
       </Stack.Protected>
     </Stack>
   );
