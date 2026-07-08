@@ -5,6 +5,8 @@ import React from "react";
 import { useState } from "react";
 import * as SecureStore from "expo-secure-store";
 
+import * as SQLite from "expo-sqlite";
+
 export function Index1() {
   const [data, setData] = useState<string | null>(null);
 
@@ -50,7 +52,7 @@ export function Index1() {
   );
 }
 
-export default function Index() {
+export  function Index2() {
   const [output, setOutput] = useState<string>("");
 
   const saveTokens = async () => {
@@ -90,6 +92,30 @@ export default function Index() {
   }; 
 
   return <View></View>;
+}
+
+
+const db = SQLite.openDatabaseSync("mydb.db");
+
+export function Index(){
+  const [output, setOutput] = useState<string>("");
+  // create table 
+  const createTable = () => {
+    db.execAsync("CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, age INTEGER);");
+    setOutput("Table created successfully");
+  }
+
+  // insert 
+  const insertData = () => {
+    db.runSync("INSERT INTO users (name, age) VALUES (?, ?);", ["John Doe", 30]);
+    setOutput("Data inserted successfully");
+  }
+  
+  return (
+    <View style={styles.container}>
+      <Text>Edit src/app/index.tsx to edit this screen.</Text>
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({
