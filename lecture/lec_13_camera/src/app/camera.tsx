@@ -5,10 +5,11 @@ import { ThemedText } from "@/components/themed-text";
 import { ThemedView } from "@/components/themed-view";
 
 import {
-  BarcodeScanningResult, 
+  BarcodeScanningResult,
   CameraView,
   useCameraPermissions,
   useMicrophonePermissions,
+  type FlashMode,
 } from "expo-camera";
 const Camera = () => {
   const [permission, requestPermission] = useCameraPermissions();
@@ -22,8 +23,15 @@ const Camera = () => {
 
   const [recording, setRecording] = useState<boolean>(false);
 
-  const [result , setResult] = useState<BarcodeScanningResult | null>(null);
-  const lastScanned = useRef<string | null>(null); 
+  const [result, setResult] = useState<BarcodeScanningResult | null>(null);
+  const lastScanned = useRef<string | null>(null);
+
+  const [flash, setFlash] = useState<FlashMode>("off");
+  const [torch, setTorch] = useState<boolean>(false);
+  
+  const cycleFlash = () => {
+    setFlash((prevFlash) => (prevFlash === "off" ? "on" : prevFlash === "on" ? "auto" : "off"));
+  }
 
   if (!permission) {
     return <ThemedText>Requesting camera permission...</ThemedText>;
@@ -58,7 +66,7 @@ const Camera = () => {
     setRecording(true);
     const video = await cameraRef.current?.recordAsync({ maxDuration: 10 });
     if (video?.uri) setVideoUri(video?.uri);
-    // video is stored in cache memory 
+    // video is stored in cache memory
     setRecording(false);
   };
 
@@ -66,11 +74,11 @@ const Camera = () => {
     cameraRef.current?.stopRecording();
   };
 
-  const onBarCodeScanned =  (scan : BarcodeScanningResult ) =>{
-    if(lastScanned.current === scan.data ) return;
-    lastScanned.current = scan.data ;
-    setResult(scan)
-  }
+  const onBarCodeScanned = (scan: BarcodeScanningResult) => {
+    if (lastScanned.current === scan.data) return;
+    lastScanned.current = scan.data;
+    setResult(scan);
+  };
 
   return (
     <ThemedView style={{ flex: 1, justifyContent: "center", padding: 24 }}>
@@ -81,8 +89,10 @@ const Camera = () => {
         facing="back"
         onMountError={(error) => console.log(error)}
         // mode="video" // default is photo
-        barcodeScannerSettings={{barcodeTypes:["qr"]}} 
+        barcodeScannerSettings={{ barcodeTypes: ["qr"] }}
         onBarcodeScanned={onBarCodeScanned}
+        flash={flash}
+        enableTorch={torch}
       />
 
       <Button
@@ -101,6 +111,12 @@ const Camera = () => {
           contentFit="cover"
         />
       )}
+      <Button title={`Flash: ${flash} `} onPress={cycleFlash} />
+      <Button
+        title={`Torch: ${torch ? "on" : "off"} `}
+        onPress={() => setTorch((prev) => !prev)}
+      />
+      
       <ThemedText style={{ padding: 12 }}>
         {ready ? "Camera is ready" : "Camera is not ready"}
       </ThemedText>
