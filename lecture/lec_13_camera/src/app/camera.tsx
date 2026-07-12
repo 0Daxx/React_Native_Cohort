@@ -5,6 +5,7 @@ import { ThemedText } from "@/components/themed-text";
 import { ThemedView } from "@/components/themed-view";
 
 import {
+  BarCodeScanningResult,
   CameraView,
   useCameraPermissions,
   useMicrophonePermissions,
@@ -20,6 +21,9 @@ const Camera = () => {
   const [videoUri, setVideoUri] = useState<string | null>(null);
 
   const [recording, setRecording] = useState<boolean>(false);
+
+  const [result , setResult] = useState<BarCodeScanningResult | null>(null);
+  const lastScanned = useRef<string | null>(null); 
 
   if (!permission) {
     return <ThemedText>Requesting camera permission...</ThemedText>;
@@ -61,6 +65,13 @@ const Camera = () => {
   const stopRecording = () => {
     cameraRef.current?.stopRecording();
   };
+
+  const onBarCodeScanned =  (scan : BarCodeScanningResult ) =>{
+    if(lastScanned.current === scan.data ) return;
+    lastScanned.current = scan.data ;
+    setResult(scan)
+  }
+
   return (
     <ThemedView style={{ flex: 1, justifyContent: "center", padding: 24 }}>
       <CameraView
@@ -69,7 +80,9 @@ const Camera = () => {
         onCameraReady={() => setReady(true)}
         facing="back"
         onMountError={(error) => console.log(error)}
-        mode="video" // default is photo
+        // mode="video" // default is photo
+        barcodeScannerSettings={{barcodeTypes:["qr"]}} 
+        onBarcodeScanned={onBarCodeScanned}
       />
 
       <Button
