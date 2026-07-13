@@ -1,4 +1,4 @@
-import { Button, StyleSheet, Text, View, Image } from "react-native";
+import { Button, StyleSheet, Text, View, Image , ActivityIndicator , Alert , Linking } from "react-native";
 import React, { useState, useRef } from "react";
 
 import { ThemedText } from "@/components/themed-text";
@@ -10,7 +10,31 @@ import {
   useCameraPermissions,
   useMicrophonePermissions,
   type FlashMode,
+  type CameraType,
 } from "expo-camera";
+
+import * as MediaLibrary from "expo-media-library";
+
+
+async function saveToGallery(uri: string) {
+  const {granted , canAskAgain } = await MediaLibrary.requestPermissionsAsync(true);
+
+  if(!granted){
+    if(!canAskAgain){
+
+      Alert.alert(
+        "Photo Library access denied",
+        "Enable Photo Library access in the Settings to save photos",
+        [
+          {text:"Cancel" , style:"cancel"},
+          {text:"Open Setting" , onPress: ()=> Linking.openSettings()}
+        ]
+      )
+    }
+    throw new Error("Photos library permission denied");
+  }
+}
+
 const Camera = () => {
   const [permission, requestPermission] = useCameraPermissions();
   const cameraRef = useRef<CameraView>(null);
@@ -29,6 +53,9 @@ const Camera = () => {
   const [flash, setFlash] = useState<FlashMode>("off");
   const [torch, setTorch] = useState<boolean>(false);
   
+  const [facing, setFacing] = useState<CameraType>("back");
+  const [zoom, setZoom] = useState<number>(0);
+
   const cycleFlash = () => {
     setFlash((prevFlash) => (prevFlash === "off" ? "on" : prevFlash === "on" ? "auto" : "off"));
   }
@@ -86,7 +113,8 @@ const Camera = () => {
         ref={cameraRef}
         style={{ flex: 1 }}
         onCameraReady={() => setReady(true)}
-        facing="back"
+        facing={facing}
+        zoom={zoom}
         onMountError={(error) => console.log(error)}
         // mode="video" // default is photo
         barcodeScannerSettings={{ barcodeTypes: ["qr"] }}
@@ -94,6 +122,10 @@ const Camera = () => {
         flash={flash}
         enableTorch={torch}
       />
+
+      <Button title="Flip Camera" onPress={() => setFacing((prev) => (prev === "back" ? "front" : "back"))} />
+      <Button title="Zoom In" onPress={() => setZoom((prev) => Math.min(prev + 0.1, 1))} />
+      <Button title="Zoom Out" onPress={() => setZoom((prev) => Math.max(prev - 0.1, 0))} />
 
       <Button
         title={recording ? "stop" : "record"}
@@ -116,7 +148,7 @@ const Camera = () => {
         title={`Torch: ${torch ? "on" : "off"} `}
         onPress={() => setTorch((prev) => !prev)}
       />
-      
+      <ThemedText> Zoom : {(zoom * 100).toFixed(0)}% </ThemedText>
       <ThemedText style={{ padding: 12 }}>
         {ready ? "Camera is ready" : "Camera is not ready"}
       </ThemedText>
