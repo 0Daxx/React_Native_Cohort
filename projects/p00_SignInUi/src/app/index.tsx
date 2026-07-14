@@ -15,14 +15,8 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 import { Ionicons } from "@expo/vector-icons";
 
-// import Ionicons  from '@ionic/react';
-
-// import { BottomTabInset, MaxContentWidth, Spacing } from "@/constants/theme";
 import { useState } from "react";
 import { Icon, Link } from "expo-router";
-
-// import { View, Text } from 'react-native'
-// import React from 'react'
 
 function IconComponent({
   isDarkTheme,
@@ -46,7 +40,6 @@ function IconComponent({
           style={{ borderRadius: 10, padding: 5, margin: 5 }}
         />
       </Pressable>
-      {/* <Text>IconComponent</Text> */}
     </View>
   );
 }
@@ -62,9 +55,7 @@ export default function HomeScreen() {
   const [password, setPassword] = useState<string>("");
   const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false);
   const [email, setEmail] = useState<string>("");
-  // const dark = Appearance.getColorScheme();
   return (
-    // <ThemedView style={styles.container}>
     <KeyboardAvoidingView
       behavior={Platform.OS === "ios" ? "padding" : "height"}
       style={{
@@ -76,13 +67,11 @@ export default function HomeScreen() {
     >
       <SafeAreaView
         style={{
-          // flex: 1,
           backgroundColor: isDarkTheme === "dark" ? "#111111" : "#ffffff",
         }}
       >
         <View
           style={{
-            // flex: 1,
             gap: 15,
             alignSelf: "center",
             justifyContent: "center",
@@ -180,6 +169,9 @@ export default function HomeScreen() {
             flexDirection: "row",
           }}
           onPress={() => {
+            setIsPasswordVisible(false);
+            setEmail("");
+            setPassword("");
             console.log(email);
             console.log(password);
           }}
@@ -220,9 +212,6 @@ export default function HomeScreen() {
             </Text>
           </Text>
 
-          {/* <Link href="/reset-password" style={[styles.primary_text, { textDecorationLine: "underline" , fontWeight: '600' , color: '#e500e9' , marginTop: 10 }]}>
-            Reset Password
-          </Link> */}
           <Text
             style={[
               styles.primary_text,
@@ -240,7 +229,6 @@ export default function HomeScreen() {
         </View>
       </SafeAreaView>
     </KeyboardAvoidingView>
-    // </ThemedView>
   );
 }
 
@@ -249,7 +237,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     flexDirection: "row",
-    // color:'#ffffff'
   },
   primary_text: {
     fontSize: 16,
@@ -258,10 +245,3 @@ const styles = StyleSheet.create({
   },
 });
 
-/*
-lowest element not visible 
-
-
-
-
-*/
