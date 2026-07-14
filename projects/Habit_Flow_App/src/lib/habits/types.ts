@@ -1,20 +1,3 @@
-// habits types
-// export type HabitProps = {
-//   id: number;
-//   title: string;
-//   description: string;
-//   icon: string;
-//   color: string;
-//   goal?: number;
-//   frequency?: "daily" | "weekly" | "monthly";
-//   reminderTime?: string; // e.g., "08:00 AM"
-//   streakCount?: number;
-//   reminder?: boolean;
-//   unit ?: "times" | "kilometers" | "minutes" | "hours" | "pages" | "words" | "custom" ;
-//   // isCompleted?: boolean;
-//   // lastCompleted?: Date;
-// };
-
 export default interface HabitProps {
   id: number;
   title: string;
@@ -34,7 +17,8 @@ export default interface HabitProps {
     | "hours"
     | "pages"
     | "words"
-    | "custom";
+    | "custom"
+    | unknown;
 }
 
 /*

@@ -1,4 +1,5 @@
-
+import "../../global.css";
+// @ts-nocheck
 
 import { StatusBar } from "expo-status-bar";
 import {
@@ -19,35 +20,15 @@ import React from "react";
 
 import { Ionicons } from "@react-native-vector-icons/ionicons";
 
-//  temp habit list
-
-// interface HabitProps {
-//   id: number;
-//   title: string;
-//   description: string;
-//   icon: string;
-//   color: string;
-//   goal?: number;
-//   current?: number;
-//   frequency?: "daily" | "weekly" | "monthly";
-//   // reminderTime?: string;
-//   // reminder?: boolean;
-//   streakCount?: number;
-//   unit?:
-//     | "times"
-//     | "kilometers"
-//     | "minutes"
-//     | "hours"
-//     | "pages"
-//     | "words"
-//     | "custom";
-// }
-
 import HabitProps from "../lib/habits/types";
 
 const HabitItem = ({ habit }: { habit: HabitProps }) => {
   const [modalVisible, setModalVisible] = React.useState(false);
   const [logValue, setLogValue] = React.useState<number>(0);
+
+  // habit detail modal
+  const [detailModalVisible, setDetailModalVisible] = React.useState(false);
+
   return (
     <View
       style={{
@@ -56,6 +37,15 @@ const HabitItem = ({ habit }: { habit: HabitProps }) => {
       }}
     >
       <Pressable
+        // navigate to habit details screen
+        onPress={() => {
+          console.log(habit);
+        }}
+        onLongPress={() => {
+          // show habit details modal
+          setDetailModalVisible(true);
+          console.log(habit);
+        }}
         // onPress={() => console.log(habit)}
         key={habit.id}
         style={{
@@ -66,7 +56,7 @@ const HabitItem = ({ habit }: { habit: HabitProps }) => {
           backgroundColor: habit.color,
           borderRadius: 10,
         }}
-      >
+      > 
         <Ionicons name={habit.icon} size={24} color="white" />
         <View style={{ marginLeft: 10 }}>
           <Text style={{ color: "white", fontWeight: "bold" }}>
@@ -86,7 +76,7 @@ const HabitItem = ({ habit }: { habit: HabitProps }) => {
             setModalVisible(true);
           }}
         >
-          <Text> Log </Text>
+          <Text className="text-white font-bold text-lg"> Log </Text>
           <Ionicons name="checkmark-circle" size={24} color="white" />
         </Pressable>
 
@@ -138,6 +128,69 @@ const HabitItem = ({ habit }: { habit: HabitProps }) => {
               </View>
             </View>
           </View>
+        </Modal>
+
+        {/* Habit Detail Modal */}
+        <Modal
+          animationType="fade"
+          transparent={true}
+          visible={detailModalVisible}
+          onRequestClose={() => setDetailModalVisible(false)}
+        >
+          {/* Modal Content */}
+
+          {/* skip , fail , log progress , edit  || , add note , start timer  */}
+
+          <Pressable
+            style={
+              (styles.modalOverlay,
+              { borderRadius: 10, padding: 10, width: "20%", height: "45%" , justifyContent : 'space-between' , backgroundColor: "#222" , borderRadius: 10 , padding: 10 , position: "absolute" , left: "10%" , top: "20%"})
+            }
+            onPress={() => setDetailModalVisible(false)}
+          >
+            <FlatList
+              data={[
+                { label: "Skip", onPress: () => console.log("Skip") },
+                { label: "Fail", onPress: () => console.log("Fail") },
+                {
+                  label: "Log Progress",
+                  onPress: () => console.log("Log Progress"),
+                },
+                { label: "Edit", onPress: () => console.log("Edit") },
+                // { label: "Add Note", onPress: () => console.log("Add Note") },
+                // {label: "Start Timer", onPress: () => console.log("Start Timer"),},
+              ]}
+              keyExtractor={(item, index) => index.toString()}
+              renderItem={({ item }) => (
+                <Pressable
+                  onPress={() => {
+                    item.onPress();
+                    setDetailModalVisible(false);
+                  }}
+                  style={{
+                    padding: 15,
+                    borderBottomWidth: 1,
+                    borderBottomColor: "#444",
+                  }}
+                >
+                  <Text style={{ color: "white" }}>{item.label}</Text>
+                </Pressable>
+              )}
+            />
+            <Pressable onPress={() => setDetailModalVisible(false)}>
+              <Text style={{ color: "#007AFF" }}>CLOSE</Text>
+            </Pressable>
+          </Pressable>
+
+          {/* <View style={styles.modalOverlay}> */}
+            {/* <View style={styles.modalContent}> */}
+              {/* <Text style={styles.modalTitle}>Habit Details</Text> */}
+              {/* <Text style={styles.modalDescription}>{habit.description}</Text> */}
+              {/* <Pressable onPress={() => setDetailModalVisible(false)}>
+                <Text style={{ color: "#007AFF" }}>CLOSE</Text>
+              </Pressable> */}
+            {/* </View>
+          </View> */}
         </Modal>
       </Pressable>
       {/* // habit log button */}
@@ -192,7 +245,7 @@ export default function HabitScreen() {
     setSelectedDay(day);
 
     listRef.current?.scrollToIndex({
-      index: day ,
+      index: day,
       // index: day - 1,
       animated: true,
       viewPosition: 0.65, //
@@ -269,9 +322,7 @@ export default function HabitScreen() {
       {/* Habit List */}
       <FlatList
         data={Habits}
-        renderItem={({ item }) => (
-          <HabitItem habit={item}/>
-        )}
+        renderItem={({ item }) => <HabitItem habit={item} />}
         keyExtractor={(item) => item.id.toString()}
       />
 
@@ -289,7 +340,6 @@ export default function HabitScreen() {
           gap: 10,
         }}
       >
-
         {/* days   */}
         <FlatList
           // style={{ marginTop: 10 }}
@@ -299,7 +349,11 @@ export default function HabitScreen() {
           showsHorizontalScrollIndicator={false}
           data={Array.from({ length: 30 }, (_, i) => i + 1)}
           renderItem={({ item }) => (
-            <DayItem day={item} handleDayPress={handleDayPress} selectDay={selectDay} />
+            <DayItem
+              day={item}
+              handleDayPress={handleDayPress}
+              selectDay={selectDay}
+            />
           )}
           keyExtractor={(item) => item.toString()}
         />
