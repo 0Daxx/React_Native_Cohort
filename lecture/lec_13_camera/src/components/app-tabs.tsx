@@ -33,6 +33,12 @@ export default function AppTabs() {
           md="camera_alt"
         />
       </NativeTabs.Trigger>
+      <NativeTabs.Trigger name="audio">
+        <NativeTabs.Trigger.Label>Audoi</NativeTabs.Trigger.Label>
+        <NativeTabs.Trigger.Icon
+          md={"music_note"}
+        />
+      </NativeTabs.Trigger>
     </NativeTabs>
   );
 }
