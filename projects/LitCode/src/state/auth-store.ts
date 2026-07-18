@@ -1,8 +1,7 @@
+import {createSessionFromUrl, isAuthCallbackUrl} from "@/lib/auth";
+import type { Session, User } from "@supabase/supabase-js";
 import { create } from "zustand";
 import { supabase } from "../lib/supabase";
-
-import type { Session, User } from "@supabase/supabase-js";
-import { featureFlags } from "react-native-screens";
 
 interface AuthStore {
   session: Session | null;
@@ -53,6 +52,8 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
 
   handleDeepLink : async (url)=> {
     // todo
+    if(!isAuthCallbackUrl(url)) return;
+    await createSessionFromUrl(url);
     },
   signOut: async()=> {
     const {error} = await supabase.auth.signOut();
