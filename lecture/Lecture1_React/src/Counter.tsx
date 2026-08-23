@@ -5,7 +5,7 @@ const Counter = () => {
   const [count, setCount] = useState(0);
   const [darkMode, setDarkMode] = useState(false);
   return (
-    <div className={darkMode ? 'dark' : 'light'}>
+    <div className={darkMode ? 'dark flex-1  h-full  justify-center border-2' : 'light flex-1  h-full  justify-center border-2'}>
       <p>Count: {count}</p>
       <button className='counter' onClick={() => setCount(count + 1)}>Increment</button>
       <button className='counter' onClick={() => setCount(count - 1)}>Decrement</button>
