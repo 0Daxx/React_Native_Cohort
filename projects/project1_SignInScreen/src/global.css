@@ -1,0 +1,41 @@
+@import 'tailwindcss';
+@import 'uniwind';
+
+@theme {
+  /* SEMANTIC MAPPING: Map logical names to CSS variables */
+  --color-bg-base: var(--bg-base);
+  --color-bg-surface: var(--bg-surface);
+  --color-text-primary: var(--text-primary);
+  --color-text-secondary: var(--text-secondary);
+  --color-brand-primary: var(--brand-primary);
+  --color-brand-hover: var(--brand-hover);
+  --color-border-subtle: var(--border-subtle);
+}
+
+@layer base {
+  :root {
+    /* 🎨 BRAND COLORS (Change these to rebrand your app) */
+    --brand-primary: #6366f1; /* Indigo */
+    --brand-hover: #4f46e5;   /* Darker Indigo */
+
+    /* LIGHT MODE TOKENS */
+    --bg-base: #ffffff;
+    --bg-surface: #f8fafc;    /* Very light gray for cards */
+    --text-primary: #0f172a;  /* Almost black */
+    --text-secondary: #64748b;/* Gray */
+    --border-subtle: #e2e8f0;
+  }
+
+  .dark {
+    /* DARK MODE TOKENS */
+    --bg-base: #020617;       /* Almost black */
+    --bg-surface: #1e293b;    /* Dark slate for cards */
+    --text-primary: #f8fafc;  /* White */
+    --text-secondary: #94a3b8;/* Light gray */
+    --border-subtle: #334155;
+    
+    /* Brand can stay same or adjust for dark mode contrast */
+    --brand-primary: #818cf8; 
+    --brand-hover: #6366f1;
+  }
+}
