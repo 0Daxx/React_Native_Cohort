@@ -5,6 +5,7 @@ export default function RootLayout() {
     <Tabs>
       <Tabs.Screen name="index" options={{ headerShown: false }} />
       <Tabs.Screen name="settings" />
+      <Tabs.Screen name="home" />
     </Tabs>
   );
 }
