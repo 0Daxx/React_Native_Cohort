@@ -1,133 +1,164 @@
+import React, { useState } from "react";
 import {
-  StyleSheet,
-  KeyboardAvoidingView,
+  View,
+  Text,
   TextInput,
   Pressable,
+  // SafeAreaView,
+  ScrollView,
+  StatusBar,
+  Alert,
 } from "react-native";
-import React, { useState } from "react";
-import {ThemedText, ThemedView, ThemedInput, ThemedButton, ThemedSafeAreaView} from "../components/ThemedComponents";
+import { Uniwind, useUniwind } from "uniwind";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@react-native-vector-icons/ionicons";
-
-import { Link } from "expo-router";
-
-export default function Index() {
-  const [name, setName] = useState("");
+export default function SignUpScreen() {
+  const { theme } = useUniwind();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [showPassword, setShowPassword] = useState(false);
-  const [isChecked, setIsChecked] = useState(false);
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [showPassword, setShowPassword] = useState<boolean>(false);
   return (
-    <ThemedSafeAreaView className="flex-1 bg-white dark:bg-black">
-      <ThemedView className="flex-1 items-center justify-center p-6">
-        <ThemedText variant="primary" className="text-2xl font-bold">
-          Sign up
-        </ThemedText>
-        <ThemedText variant="secondary" className="text-center">
-          Eonify has been launched in the app store , it has been released to the public for free and is available for download. You can now sign up and start using the app to manage your tasks and projects efficiently.
-        </ThemedText>
+    <SafeAreaView className="flex-1 bg-white dark:bg-black">
+      <StatusBar
+        barStyle={theme === "dark" ? "light-content" : "dark-content"}
+      />
 
-      {/* Login with 3rd party buttons */}
-      <ThemedView style={{ flexDirection: "row" }}>
-        <ThemedView style={{ margin: 10 }}>
-          <Ionicons name="logo-google" size={30} />
-          <ThemedText>Google</ThemedText>
-        </ThemedView>
-        <ThemedView style={{ margin: 10 }}>
-          <Ionicons name="logo-facebook" size={30} />
-          <ThemedText> Facebook</ThemedText>
-        </ThemedView>
-      </ThemedView>
+      <ScrollView contentContainerClassName="flex-grow px-6 py-10 gap-8 dark:bg-black ">
+        {/* Header Section */}
+        <View className="items-center gap-3 mt-8">
+          {/* Logo Circle: Blue in both modes, but shadow adapts */}
+          <View className="w-20 h-20 rounded-full bg-blue-500 items-center justify-center shadow-lg">
+            <Text className="text-white text-3xl font-bold">A</Text>
+          </View>
 
-      <ThemedView style={{ margin: 10, flexDirection: "row" }}>
-        <ThemedView style={{ borderWidth: 1, borderColor: "gray" }}></ThemedView>
-        {/* <ThemedView> <ThemedText> Or </ThemedText>  </ThemedView> */}
-        <ThemedView style={{ borderWidth: 1, borderColor: "gray" }}></ThemedView>
-      </ThemedView>
+          <Text className="text-3xl font-bold text-blue-500 dark:text-white tracking-tight">
+            Sign Up
+          </Text>
 
-      {/* Fields  */}
-      <KeyboardAvoidingView behavior="padding">
-        <ThemedInput
-          placeholder="Name"
-          onChangeText={(text) => setName(text)}
-        />
-        <ThemedInput
-          placeholder="Email"
-          onChangeText={(text) => setEmail(text)}
-        />
-        <ThemedView style={{ flexDirection: "row", alignItems: "center" }}>
-          <ThemedInput
-            style={styles.input}
-            placeholder="Password"
-            secureTextEntry={showPassword}
-            onChangeText={(text) => setPassword(text)}
-          />
+          <Text className="text-gray-500 dark:text-gray-400 text-center max-w-[80%]">
+            Enter your credentials to access your account
+          </Text>
+        </View>
+
+        {/* Theme Toggle */}
+        <View className="self-end">
           <Pressable
-            hitSlop={{ top: 20, bottom: 20, left: 20, right: 20 }}
-            onPress={() => setShowPassword(!showPassword)}
+            onPress={() =>
+              Uniwind.setTheme(theme === "light" ? "dark" : "light")
+            }
+            className="flex-row items-center gap-2 px-4 py-2 bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-full"
           >
-            <Ionicons name={showPassword ? "eye-off" : "eye"} size={20} />
+            <Text className="text-lg">{theme === "dark" ? "🌙" : "☀️"}</Text>
+            <Text className="text-gray-600 dark:text-gray-300 text-sm font-medium uppercase">
+              {theme}
+            </Text>
           </Pressable>
-        </ThemedView>
-        {/* <TextInput placeholder="Confirm Password" /> */}
-      </KeyboardAvoidingView>
-      <ThemedView
-        style={{
-          margin: 10,
-          alignItems: "center",
-          flexDirection: "row",
-          justifyContent: "space-between",
-        }}
-      >
-        <Pressable
-          hitSlop={{ top: 20, bottom: 20, left: 20, right: 20 }}
-          onPress={() => setIsChecked(!isChecked)}
-          style={{
-            backgroundColor: "#e9f5fd",
-            padding: 10,
-            borderRadius: 5,
-            // width: 200,
-            alignItems: "center",
-          }}
-        >
-          {/* <ThemedText></ThemedText> */}
-          {isChecked ? (
-            <Ionicons name="checkmark" size={20} />
-          ) : (
-            <Ionicons name="square-outline" size={20} />
-          )}
-          {/* <Ionicons name="checkmark" size={20} /> */}
-        </Pressable>
-        <ThemedText> I agree to the Terms & Conditions </ThemedText>
-      </ThemedView>
+        </View>
 
-      <Pressable style={{ margin: 10 }}>
-        <ThemedText>Create Account</ThemedText>
-      </Pressable>
+        {/* 3rd party login  */}
 
-      <ThemedView style={{ margin: 10, flexDirection: "row" }}>
-        <ThemedText>Already have an account? </ThemedText>
-        <ThemedText style={{ color: "blue" }}>Login</ThemedText>
-      </ThemedView>
-    </ThemedView>
-    {/* </ThemedView> */}
-    </ThemedSafeAreaView>
+        <View className="flex-row items-center justify-center gap-4 mt-6">
+          <Pressable
+            onPress={() => {}}
+            className="flex-row items-center gap-2 px-4 py-2 bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-full"
+          >
+            <Ionicons
+              name="logo-google"
+              size={24}
+              color={theme === "dark" ? "white" : "black"}
+            />
+            <Text className="text-gray-600 dark:text-gray-300 text-sm font-medium">
+              Google
+            </Text>
+          </Pressable>
+          <Pressable
+            onPress={() => {}}
+            className="flex-row items-center gap-2 px-4 py-2 bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-full"
+          >
+            <Ionicons
+              name="logo-facebook"
+              size={24}
+              color={theme === "dark" ? "white" : "black"}
+            />
+            <Text className="text-gray-600 dark:text-gray-300 text-sm font-medium">
+              Facebook
+            </Text>
+          </Pressable>
+        </View>
+
+        {/* Login Form Card */}
+        <View className="bg-white dark:bg-gray-800 p-6 rounded-2xl border border-gray-200 dark:border-gray-700 gap-5 shadow-sm">
+          {/* Email Input */}
+          <View className="gap-2">
+            <Text className="text-sm font-semibold text-gray-900 dark:text-white ml-1">
+              Email Address
+            </Text>
+            <TextInput
+              value={email}
+              onChangeText={setEmail}
+              placeholder="name@example.com"
+              // Placeholder color doesn't support dark: prefix, so we use a variable or inline style
+              placeholderTextColor={theme === "dark" ? "#9ca3af" : "#6b7280"}
+              autoCapitalize="none"
+              keyboardType="email-address"
+              className="h-12 px-4 rounded-xl bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white text-base focus:border-blue-500"
+            />
+          </View>
+
+          {/* Password Input */}
+          <View className="gap-2">
+            <Text className="text-sm font-semibold text-gray-900 dark:text-white ml-1">
+              Password
+            </Text>
+            <TextInput
+              value={password}
+              onChangeText={setPassword}
+              secureTextEntry={!showPassword}
+              placeholder="••••••••"
+              placeholderTextColor={theme === "dark" ? "#9ca3af" : "#6b7280"}
+              className="h-12 px-4 rounded-xl bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white text-base focus:border-blue-500"
+            />
+            <Pressable
+              onPress={() => setShowPassword(!showPassword)}
+              className="absolute right-4 top-10"
+              hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+            >
+              {!showPassword ? (
+                <Ionicons name="eye-off" size={24} color="gray" />
+              ) : (
+                <Ionicons name="eye" size={24} color="gray" />
+              )}
+            </Pressable>
+          </View>
+          {/* Sign In Button */}
+          <Pressable
+            onPress={() => {
+              setShowPassword(!showPassword);
+              setPassword("");
+              setEmail("");
+              setConfirmPassword("");
+              Alert.alert("Sign Up", "Account created successfully!");
+              console.log("Sign Up button pressed");
+            }}
+            className="h-12 bg-blue-500 rounded-xl items-center justify-center shadow-lg active:bg-blue-600"
+          >
+            <Text className="text-white font-bold text-lg tracking-wide">
+              Create Account
+            </Text>
+          </Pressable>
+        </View>
+
+        {/* Footer */}
+        <View className="flex-row justify-center gap-2 mt-4">
+          <Text className="text-gray-500 dark:text-gray-400">
+            Do you have an account?
+          </Text>
+          <Pressable>
+            <Text className="text-blue-500 font-bold">Sign In</Text>
+          </Pressable>
+        </View>
+      </ScrollView>
+    </SafeAreaView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  input: {
-    height: 40,
-    width: 200,
-    borderColor: "gray",
-    // borderWidth: 1,
-    backgroundColor: "#e9f5fd",
-    marginBottom: 10,
-    paddingHorizontal: 10,
-    borderRadius: 5,
-  },
-});
