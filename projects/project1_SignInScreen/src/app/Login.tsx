@@ -4,7 +4,8 @@ import {
   ThemedText,
   ThemedView,
   ThemedInput,
-  ThemedButton,
+  ThemedPressable,
+  ThemedSafeAreaView,
 } from "../components/ThemedComponents";
 import { Uniwind } from "uniwind";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -14,19 +15,23 @@ export default function LoginScreen() {
   const [password, setPassword] = useState("");
 
   return (
-    <SafeAreaView className="flex-1 bg-white dark:bg-black">
+    <ThemedSafeAreaView className="flex-1 bg-white dark:bg-black">
       <ScrollView contentContainerClassName="p-6 gap-8">
         {/* Header */}
-        <View className="items-center gap-2 mt-10">
-          <ThemedText variant="primary" className="text-3xl font-bold">
+        <ThemedView className="items-center gap-2 mt-10">
+          <ThemedText
+            variant="primary"
+            className="text-3xl font-bold"
+            style={{ fontSize: 24 }}
+          >
             Welcome Back
           </ThemedText>
           <ThemedText variant="secondary">Sign in to your account</ThemedText>
-        </View>
+        </ThemedView>
 
         {/* Theme Toggle (Simple) */}
-        <View className="self-end">
-          <ThemedButton
+        <ThemedView className="self-end">
+          <ThemedPressable
             onPress={() => {
               Uniwind.currentTheme === "dark"
                 ? Uniwind.setTheme("light")
@@ -35,8 +40,8 @@ export default function LoginScreen() {
             style={{ height: 40, width: 100, backgroundColor: "#333" }}
           >
             Dark
-          </ThemedButton>
-        </View>
+          </ThemedPressable>
+        </ThemedView>
 
         {/* Form Card */}
         <ThemedView variant="card" className="p-6 rounded-2xl border gap-4">
@@ -48,17 +53,18 @@ export default function LoginScreen() {
             onChangeText={setEmail}
             placeholder="name@example.com"
           />
+          
 
-          <ThemedText variant="primary" className="font-semibold">
+          <ThemedText variant="primary" className="font-semibold ">
             Password
           </ThemedText>
           <ThemedInput secureTextEntry placeholder="••••••••" />
 
-          <ThemedButton onPress={() => console.log("Login")}>
+          <ThemedPressable onPress={() => console.log("Login")}>
             Sign In
-          </ThemedButton>
+          </ThemedPressable>
         </ThemedView>
       </ScrollView>
-    </SafeAreaView>
+    </ThemedSafeAreaView>
   );
 }

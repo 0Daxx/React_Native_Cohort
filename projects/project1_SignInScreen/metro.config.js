@@ -13,3 +13,10 @@ const uniwindConfig = withUniwindConfig(config, {
 });
 
 module.exports = uniwindConfig;
+// const { getDefaultConfig } = require('expo/metro-config');
+// const { withUniwind } = require('uniwind/metro');
+
+// const config = getDefaultConfig(__dirname);
+
+// // Wrap the config with Uniwind
+// module.exports = withUniwind(config);

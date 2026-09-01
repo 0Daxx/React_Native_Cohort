@@ -15,12 +15,14 @@ interface ThemedTextProps {
   children: React.ReactNode;
   variant?: "primary" | "secondary" | "muted";
   style?: TextStyle;
+  className?: string;
 }
 
 export const ThemedText = ({
   children,
   variant = "primary",
   style,
+  className
 }: ThemedTextProps) => {
   const { theme } = useUniwind();
 
@@ -31,7 +33,9 @@ export const ThemedText = ({
     muted: theme === "dark" ? "#6b7280" : "#9ca3af",
   };
 
-  return <Text style={[{ color: colors[variant] }, style]}>{children}</Text>;
+  return <Text style={[{ color: colors[variant] }, style]} className={className}>
+    {children}
+  </Text>;
 };
 
 // --- 2. Themed View (Card/Container) ---
@@ -39,12 +43,14 @@ interface ThemedViewProps {
   children: React.ReactNode;
   variant?: "default" | "card" | "surface";
   style?: ViewStyle;
+  className?: string;
 }
 
 export const ThemedView = ({
   children,
   variant = "default",
   style,
+  className
 }: ThemedViewProps) => {
   const { theme } = useUniwind();
 
@@ -69,6 +75,7 @@ export const ThemedView = ({
         },
         style,
       ]}
+      className={className}
     >
       {children}
     </View>
@@ -101,7 +108,7 @@ export const ThemedInput = (props: any) => {
 };
 
 // --- 4. Themed Button ---
-export const ThemedButton = ({ children, onPress, style }: any) => {
+export const ThemedPressable = ({ children, onPress, style }: any) => {
   return (
     <Pressable
       onPress={onPress}

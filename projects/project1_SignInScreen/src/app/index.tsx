@@ -1,12 +1,11 @@
 import {
-  Text,
-  View,
   StyleSheet,
   KeyboardAvoidingView,
   TextInput,
   Pressable,
 } from "react-native";
 import React, { useState } from "react";
+import {ThemedText, ThemedView, ThemedInput, ThemedButton, ThemedSafeAreaView} from "../components/ThemedComponents";
 import { Ionicons } from "@react-native-vector-icons/ionicons";
 
 import { Link } from "expo-router";
@@ -18,46 +17,45 @@ export default function Index() {
   const [showPassword, setShowPassword] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
   return (
-    <View style={styles.container}>
-      <Text>Sign up</Text>
-      <Text>
-        Eonify has been launched in the app store , it has been released to the
-        public for free
-      </Text>
+    <ThemedSafeAreaView className="flex-1 bg-white dark:bg-black">
+      <ThemedView className="flex-1 items-center justify-center p-6">
+        <ThemedText variant="primary" className="text-2xl font-bold">
+          Sign up
+        </ThemedText>
+        <ThemedText variant="secondary" className="text-center">
+          Eonify has been launched in the app store , it has been released to the public for free and is available for download. You can now sign up and start using the app to manage your tasks and projects efficiently.
+        </ThemedText>
 
       {/* Login with 3rd party buttons */}
-      <View style={{ flexDirection: "row" }}>
-        <View style={{ margin: 10 }}>
+      <ThemedView style={{ flexDirection: "row" }}>
+        <ThemedView style={{ margin: 10 }}>
           <Ionicons name="logo-google" size={30} />
-          <Text>Google</Text>
-        </View>
-        <View style={{ margin: 10 }}>
+          <ThemedText>Google</ThemedText>
+        </ThemedView>
+        <ThemedView style={{ margin: 10 }}>
           <Ionicons name="logo-facebook" size={30} />
-          <Text> Facebook</Text>
-        </View>
-      </View>
+          <ThemedText> Facebook</ThemedText>
+        </ThemedView>
+      </ThemedView>
 
-      <View style={{ margin: 10, flexDirection: "row" }}>
-        <View style={{ borderWidth: 1, borderColor: "gray" }}></View>
-        {/* <View> <Text> Or </Text>  </View> */}
-        <View style={{ borderWidth: 1, borderColor: "gray" }}></View>
-      </View>
+      <ThemedView style={{ margin: 10, flexDirection: "row" }}>
+        <ThemedView style={{ borderWidth: 1, borderColor: "gray" }}></ThemedView>
+        {/* <ThemedView> <ThemedText> Or </ThemedText>  </ThemedView> */}
+        <ThemedView style={{ borderWidth: 1, borderColor: "gray" }}></ThemedView>
+      </ThemedView>
 
       {/* Fields  */}
       <KeyboardAvoidingView behavior="padding">
-        <TextInput
-          style={styles.input}
-          // placeholderStyle={{ }}
+        <ThemedInput
           placeholder="Name"
           onChangeText={(text) => setName(text)}
         />
-        <TextInput
+        <ThemedInput
           placeholder="Email"
-          style={styles.input}
           onChangeText={(text) => setEmail(text)}
         />
-        <View style={{ flexDirection: "row", alignItems: "center" }}>
-          <TextInput
+        <ThemedView style={{ flexDirection: "row", alignItems: "center" }}>
+          <ThemedInput
             style={styles.input}
             placeholder="Password"
             secureTextEntry={showPassword}
@@ -69,10 +67,10 @@ export default function Index() {
           >
             <Ionicons name={showPassword ? "eye-off" : "eye"} size={20} />
           </Pressable>
-        </View>
+        </ThemedView>
         {/* <TextInput placeholder="Confirm Password" /> */}
       </KeyboardAvoidingView>
-      <View
+      <ThemedView
         style={{
           margin: 10,
           alignItems: "center",
@@ -91,7 +89,7 @@ export default function Index() {
             alignItems: "center",
           }}
         >
-          {/* <Text></Text> */}
+          {/* <ThemedText></ThemedText> */}
           {isChecked ? (
             <Ionicons name="checkmark" size={20} />
           ) : (
@@ -99,19 +97,20 @@ export default function Index() {
           )}
           {/* <Ionicons name="checkmark" size={20} /> */}
         </Pressable>
-        <Text> I agree to the Terms & Conditions </Text>
-      </View>
+        <ThemedText> I agree to the Terms & Conditions </ThemedText>
+      </ThemedView>
 
       <Pressable style={{ margin: 10 }}>
-        <Text>Create Account</Text>
+        <ThemedText>Create Account</ThemedText>
       </Pressable>
 
-      <View style={{ margin: 10, flexDirection: "row" }}>
-        <Text>Already have an account? </Text>
-        <Text style={{ color: "blue" }}>Login</Text>
-      </View>
-    </View>
-    // </View>
+      <ThemedView style={{ margin: 10, flexDirection: "row" }}>
+        <ThemedText>Already have an account? </ThemedText>
+        <ThemedText style={{ color: "blue" }}>Login</ThemedText>
+      </ThemedView>
+    </ThemedView>
+    {/* </ThemedView> */}
+    </ThemedSafeAreaView>
   );
 }
 
