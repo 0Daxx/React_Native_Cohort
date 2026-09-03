@@ -1,3 +1,6 @@
+<img src="assets/images/task1.jpeg" width=100 height=100 >
+<img src="assets/images/task1_2.jpeg" width=100 height=100 >
+
 # Welcome to your Expo app 👋
 
 This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
