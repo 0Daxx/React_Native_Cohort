@@ -4,6 +4,7 @@ import {
   View,
   TextInput,
   Pressable,
+  PressableProps,
   TextStyle,
   ViewStyle,
 } from "react-native";
@@ -108,30 +109,44 @@ export const ThemedInput = (props: any) => {
 };
 
 // --- 4. Themed Button ---
-export const ThemedPressable = ({ children, onPress, style }: any) => {
+
+/*
+export const ThemedPressable = ({ children, onPress, style , ...props }: any) => {
   return (
     <Pressable
       onPress={onPress}
       style={[
         {
-          height: 50,
-          borderRadius: 12,
+          // height: 50,
+          // borderRadius: 12,
           justifyContent: "center",
           alignItems: "center",
-          backgroundColor: "#3b82f6", // Brand Primary
-          shadowColor: "#3b82f6",
-          shadowOffset: { width: 0, height: 4 },
-          shadowOpacity: 0.3,
-          shadowRadius: 8,
-          elevation: 4,
+          // backgroundColor: "#3b82f6", // Brand Primary
+          // shadowColor: "#3b82f6",
+          // shadowOffset: { width: 0, height: 4 },
+          // shadowOpacity: 0.3,
+          // shadowRadius: 8,
+          // elevation: 4,
         },
         style,
+        props.className ? { className: props.className } : {},
       ]}
     >
       <Text style={{ color: "#ffffff", fontWeight: "bold", fontSize: 16 }}>
         {children}
       </Text>
     </Pressable>
+  );
+};
+*/
+export const ThemedPressable = ({ className, style, ...props }: PressableProps) => {
+  return (
+    <Pressable
+      {...props}
+      // This adds a slight opacity change when pressed, which feels native
+      className={`active:opacity-80 ${className}`} 
+      style={style}
+    />
   );
 };
 

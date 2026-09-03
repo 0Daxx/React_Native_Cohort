@@ -19,10 +19,13 @@ export default function SignUpScreen() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [showPassword, setShowPassword] = useState<boolean>(false);
   return (
-    <SafeAreaView className="flex-1 bg-white dark:bg-black">
-      <StatusBar
+    <SafeAreaView
+      className="flex-1 bg-white dark:bg-black"
+      style={{ width: "100%", height: "100%" }}
+    >
+      {/* <StatusBar
         barStyle={theme === "dark" ? "light-content" : "dark-content"}
-      />
+      /> */}
 
       <ScrollView contentContainerClassName="flex-grow px-6 py-10 gap-8 dark:bg-black ">
         {/* Header Section */}

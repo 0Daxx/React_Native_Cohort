@@ -8,6 +8,8 @@ import {
   ScrollView,
   StatusBar,
   Alert,
+  Image,
+  KeyboardAvoidingView,
 } from "react-native";
 import { Uniwind, useUniwind } from "uniwind";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -20,9 +22,14 @@ export default function LoginScreen() {
   const [showPassword, setShowPassword] = useState<boolean>(false);
 
   return (
-    <SafeAreaView className="flex-1 bg-white dark:bg-black">
+    <SafeAreaView
+      className="flex-1 bg-white dark:bg-black"
+      style={{ width: "100%", height: "100%" }}
+    >
       <StatusBar
-        barStyle={theme === "dark" ? "light-content" : "dark-content"}
+        barStyle={theme === "dark" ? "light-content" : "default"}
+        // barStyle={theme === "dark" ? "light-content" : "default"}
+        // barStyle={theme === "dark" ? "light-content" : "dark-content"}
       />
 
       <ScrollView contentContainerClassName="flex-grow px-6 py-10 gap-8 dark:bg-black ">
@@ -81,6 +88,7 @@ export default function LoginScreen() {
             <Text className="text-sm font-semibold text-gray-900 dark:text-white ml-1">
               Password
             </Text>
+            <KeyboardAvoidingView behavior="padding">
             <TextInput
               value={password}
               onChangeText={setPassword}
@@ -89,17 +97,18 @@ export default function LoginScreen() {
               placeholderTextColor={theme === "dark" ? "#9ca3af" : "#6b7280"}
               className="h-12 px-4 rounded-xl bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white text-base focus:border-blue-500"
             />
+            </KeyboardAvoidingView>
             <Pressable
-                          onPress={() => setShowPassword(!showPassword)}
-                          className="absolute right-4 top-10"
-                          hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
-                        >
-                          {!showPassword ? (
-                            <Ionicons name="eye-off" size={24} color="gray" />
-                          ) : (
-                            <Ionicons name="eye" size={24} color="gray" />
-                          )}
-                        </Pressable>
+              onPress={() => setShowPassword(!showPassword)}
+              className="absolute right-4 top-10"
+              hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+            >
+              {!showPassword ? (
+                <Ionicons name="eye-off" size={24} color="gray" />
+              ) : (
+                <Ionicons name="eye" size={24} color="gray" />
+              )}
+            </Pressable>
           </View>
 
           {/* Forgot Password Link */}
