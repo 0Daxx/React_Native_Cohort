@@ -1,31 +1,27 @@
-import React, { useState, useMemo , useCallback} from 'react';
+import React, { useState, useMemo, useCallback } from 'react';
 import {
   View,
   Text,
   TextInput,
   Pressable,
   FlatList,
-  
-  ScrollView,
-  KeyboardAvoidingView,
-  Platform,
   StyleSheet,
+  Platform,
   StatusBar,
 } from 'react-native';
-import Ionicons from '@react-native-vector-icons/ionicons';
+import {Ionicons} from '@react-native-vector-icons/ionicons';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { BRAND, useScreenMetrics } from '@/theme/theme';
-
+import { useScreenMetrics , BRAND } from '@/theme/theme';
 // import { BRAND, useScreenMetrics } from '@/theme';
 
-type NoteProp = {
+type NoteProp = {  
   id: number;
   title: string;
   date: string;
   content: string;
 };
 
-const index = () => {
+const NotesListScreen = () => {
   // 1. State for Theme Toggling
   const [isDark, setIsDark] = useState(false);
   
@@ -228,4 +224,4 @@ const getStyles = (width: number, fontScale: number, isDark: boolean) => {
   });
 };
 
-export default index;
+export default NotesListScreen;

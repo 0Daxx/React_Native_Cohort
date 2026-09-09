@@ -1,215 +1,160 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useMemo } from 'react';
 import {
   View,
   Text,
   TextInput,
+  Pressable,
   ScrollView,
   KeyboardAvoidingView,
   Platform,
   StyleSheet,
-} from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
-type NotesProp = {
-  id: number;
-  title: string;
-  date: string;
-  content: string;
-};
+  StatusBar,
+} from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import Ionicons from '@react-native-vector-icons/ionicons';
+import { BRAND, useScreenMetrics } from '@/theme/theme';
 
-const Notes = () => {
-  const [notes, setNotes] = useState<NotesProp>({
-    id: 1,
-    title: "Note 1",
-    date: "2023-06-01",
-    content:
-      "This is the content of note 1. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+const notes = () => {
+  const [isDark, setIsDark] = useState(false);
+  const { width, fontScale } = useScreenMetrics();
+  
+  // Generate styles dynamically
+  const styles = useMemo(() => getStyles(width, fontScale, isDark), [width, fontScale, isDark]);
+
+  const [note, setNote] = useState({
+    title: "Project Ideas",
+    date: "Sep 10, 2026",
+    content: "Build a react native app with green theme.\n\nFeatures:\n- Dark mode\n- Responsive design\n- Simple styling"
   });
-
-  const [isFocused, setIsFocused] = useState<"title" | "content" | null>(null);
-  const titleRef = useRef<TextInput>(null);
-  const contentRef = useRef<TextInput>(null);
-
-  const handleFocus = (field: "title" | "content") => {
-    setIsFocused(field);
-  };
-
-  const handleBlur = () => {
-    setIsFocused(null);
-  };
+  
+  const [isEditing, setIsEditing] = useState(true);
 
   return (
     <SafeAreaView style={styles.container}>
-      {/* Brand Header Bar */}
-      <View style={styles.brandBar} />
+      <StatusBar barStyle={isDark ? "light-content" : "dark-content"} />
+      
+      {/* Header */}
+      <View style={styles.header}>
+        <Pressable onPress={() => setIsDark(!isDark)} style={styles.iconBtn}>
+          <Ionicons name={isDark ? "sunny" : "moon"} size={24} color={isDark ? BRAND.textDark : BRAND.text} />
+        </Pressable>
+      </View>
 
-      <KeyboardAvoidingView
-        behavior={Platform.OS === "ios" ? "padding" : "height"}
-        style={{ flex: 1 }}
-      >
-        <ScrollView
-          style={styles.scrollView}
-          keyboardShouldPersistTaps="handled"
-        >
-          {/* Editable Title */}
-          <View
-            style={[
-              styles.fieldContainer,
-              isFocused === "title" && styles.focusedField,
-            ]}
-          >
+      <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={{ flex: 1 }}>
+        <ScrollView contentContainerStyle={styles.scrollContent}>
+          
+          <Text style={styles.dateLabel}>{note.date}</Text>
+          
+          {/* Title Input/Display */}
+          {isEditing ? (
             <TextInput
-              ref={titleRef}
-              style={[
-                styles.titleInput,
-                isFocused === "title" && styles.focusedTitle,
-              ]}
-              value={notes.title}
-              onChangeText={(text) => setNotes({ ...notes, title: text })}
-              onFocus={() => handleFocus("title")}
-              onBlur={handleBlur}
-              placeholder="Untitled Note"
-              placeholderTextColor="#CCCCCC"
-              selectionColor="#00C853"
+              style={styles.titleInput}
+              value={note.title}
+              onChangeText={(t) => setNote({...note, title: t})}
+              placeholder="Title"
+              placeholderTextColor={isDark ? BRAND.textSecondaryDark : BRAND.textSecondary}
             />
-            {isFocused === "title" && <View style={styles.focusIndicator} />}
-          </View>
+          ) : (
+            <Text style={styles.titleDisplay}>{note.title}</Text>
+          )}
 
-          {/* Word Count  */}
-          <View style={styles.footer}>
-            <Text style={styles.wordCount}>
-              {notes.content.split(/\s+/).filter((w) => w.length > 0).length}{" "}
-              words
-            </Text>
-          </View>
-          {/* Date Badge */}
-          <View style={styles.dateBadge}>
-            <Text style={styles.dateText}>{notes.date}</Text>
-          </View>
-
-          {/* Editable Content */}
-          <View
-            style={[
-              styles.fieldContainer,
-              styles.contentWrapper,
-              isFocused === "content" && styles.focusedField,
-            ]}
-          >
+          {/* Content Input/Display */}
+          {isEditing ? (
             <TextInput
-              ref={contentRef}
-              style={[
-                styles.contentInput,
-                isFocused === "content" && styles.focusedContent,
-              ]}
-              value={notes.content}
-              onChangeText={(text) => setNotes({ ...notes, content: text })}
-              onFocus={() => handleFocus("content")}
-              onBlur={handleBlur}
+              style={styles.contentInput}
+              value={note.content}
+              onChangeText={(t) => setNote({...note, content: t})}
               multiline
               textAlignVertical="top"
-              placeholder="Write your thoughts here..."
-              placeholderTextColor="#CCCCCC"
-              selectionColor="#00C853"
+              placeholder="Start typing..."
+              placeholderTextColor={isDark ? BRAND.textSecondaryDark : BRAND.textSecondary}
             />
-            {isFocused === "content" && (
-              <View style={styles.focusIndicatorContent} />
-            )}
-          </View>
+          ) : (
+            <Text style={styles.contentDisplay}>{note.content}</Text>
+          )}
+
         </ScrollView>
       </KeyboardAvoidingView>
     </SafeAreaView>
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#FFFFFF",
-  },
-  brandBar: {
-    height: 4,
-    backgroundColor: "#03a547",
-  },
-  scrollView: {
-    flex: 1,
-  },
-  dateBadge: {
-    alignSelf: "flex-start",
-    marginLeft: 16,
-    marginTop: 16,
-    paddingHorizontal: 12,
-    paddingVertical: 6,
-    backgroundColor: "#F5F5F5",
-    borderRadius: 12,
-  },
-  dateText: {
-    fontSize: 12,
-    color: "#666666",
-    fontWeight: "500",
-  },
-  fieldContainer: {
-    marginHorizontal: 16,
-    marginTop: 16,
-    position: "relative",
-  },
-  contentWrapper: {
-    flex: 1,
-    minHeight: 400,
-  },
-  focusedField: {
-    backgroundColor: "#FAFAFA",
-    borderRadius: 8,
-    padding: 8,
-    marginHorizontal: 8,
-  },
-  titleInput: {
-    fontSize: 28,
-    fontWeight: "700",
-    color: "#000000",
-    padding: 0,
-    paddingBottom: 8,
-  },
-  focusedTitle: {
-    color: "#03a547",
-  },
-  contentInput: {
-    fontSize: 16,
-    lineHeight: 26,
-    color: "#333333",
-    minHeight: 300,
-    padding: 0,
-    paddingTop: 8,
-  },
-  focusedContent: {
-    color: "#000000",
-  },
-  focusIndicator: {
-    position: "absolute",
-    bottom: 0,
-    left: 0,
-    right: 0,
-    height: 2,
-    backgroundColor: "#03a547",
-  },
-  focusIndicatorContent: {
-    position: "absolute",
-    top: 0,
-    left: 0,
-    width: 3,
-    height: "100%",
-    backgroundColor: "#03a547",
-  },
-  footer: {
-    paddingHorizontal: 16,
-    paddingVertical: 12,
-    borderTopWidth: 1,
-    borderTopColor: "#F0F0F0",
-    marginTop: 24,
-  },
-  wordCount: {
-    fontSize: 12,
-    color: "#999999",
-    textAlign: "right",
-  },
-});
+// --- Dynamic Style Factory ---
+const getStyles = (width: number, fontScale: number, isDark: boolean) => {
+  const bg = isDark ? BRAND.backgroundDark : BRAND.background;
+  const text = isDark ? BRAND.textDark : BRAND.text;
+  const textSec = isDark ? BRAND.textSecondaryDark : BRAND.textSecondary;
+  const primary = isDark ? BRAND.primaryDark : BRAND.primary;
 
-export default Notes;
+  const isTablet = width >= 768;
+  const padding = isTablet ? 40 : 20;
+  const baseFont = 16 * fontScale;
+
+  return StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: bg,
+    },
+    header: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      paddingHorizontal: padding,
+      paddingVertical: 16,
+    },
+    iconBtn: {
+      padding: 8,
+    },
+    saveBtn: {
+      paddingHorizontal: 16,
+      paddingVertical: 8,
+      borderRadius: 20,
+      borderWidth: 1,
+      borderColor: primary,
+    },
+    saveText: {
+      fontWeight: '600',
+      fontSize: baseFont * 0.9,
+    },
+    scrollContent: {
+      padding: padding,
+    },
+    dateLabel: {
+      fontSize: baseFont * 0.8,
+      color: textSec,
+      marginBottom: 8,
+      textTransform: 'uppercase',
+      letterSpacing: 1,
+    },
+    titleDisplay: {
+      fontSize: baseFont * 1.8,
+      fontWeight: 'bold',
+      color: text,
+      marginBottom: 20,
+    },
+    titleInput: {
+      fontSize: baseFont * 1.8,
+      fontWeight: 'bold',
+      color: text,
+      marginBottom: 20,
+      padding: 0,
+      borderBottomWidth: 1,
+      borderBottomColor: textSec,
+    },
+    contentDisplay: {
+      fontSize: baseFont,
+      color: text,
+      lineHeight: baseFont * 1.6,
+    },
+    contentInput: {
+      fontSize: baseFont,
+      color: text,
+      lineHeight: baseFont * 1.6,
+      minHeight: 300,
+      padding: 0,
+      textAlignVertical: 'top',
+    },
+  });
+};
+
+export default notes;
