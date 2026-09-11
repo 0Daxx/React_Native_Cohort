@@ -31,8 +31,6 @@ const notes = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <StatusBar barStyle={isDark ? "light-content" : "dark-content"} />
-      
       {/* Header */}
       <View style={styles.header}>
         <Pressable onPress={() => setIsDark(!isDark)} style={styles.iconBtn}>
@@ -45,33 +43,29 @@ const notes = () => {
           
           <Text style={styles.dateLabel}>{note.date}</Text>
           
-          {/* Title Input/Display */}
-          {isEditing ? (
-            <TextInput
-              style={styles.titleInput}
-              value={note.title}
-              onChangeText={(t) => setNote({...note, title: t})}
-              placeholder="Title"
-              placeholderTextColor={isDark ? BRAND.textSecondaryDark : BRAND.textSecondary}
-            />
-          ) : (
-            <Text style={styles.titleDisplay}>{note.title}</Text>
-          )}
-
+          <TextInput
+            style={styles.titleInput}
+            value={note.title}
+            onChangeText={(t) => setNote({...note, title: t})}
+            placeholder="Title"
+            placeholderTextColor={isDark ? BRAND.textSecondaryDark : BRAND.textSecondary}
+          />
           {/* Content Input/Display */}
-          {isEditing ? (
-            <TextInput
-              style={styles.contentInput}
-              value={note.content}
-              onChangeText={(t) => setNote({...note, content: t})}
-              multiline
-              textAlignVertical="top"
-              placeholder="Start typing..."
-              placeholderTextColor={isDark ? BRAND.textSecondaryDark : BRAND.textSecondary}
-            />
+
+
+          <TextInput
+            style={styles.contentInput}
+            value={note.content}
+            onChangeText={(t) => setNote({...note, content: t})}
+            multiline
+            textAlignVertical="top"
+            placeholder="Start typing..."
+            placeholderTextColor={isDark ? BRAND.textSecondaryDark : BRAND.textSecondary}
+          />
+          {/* {isEditing ? (
           ) : (
             <Text style={styles.contentDisplay}>{note.content}</Text>
-          )}
+          )} */}
 
         </ScrollView>
       </KeyboardAvoidingView>

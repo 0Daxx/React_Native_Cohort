@@ -1,20 +1,20 @@
-import React, { useState, useMemo , useCallback} from 'react';
+import React, { useState, useMemo, useCallback } from "react";
 import {
   View,
   Text,
   TextInput,
   Pressable,
   FlatList,
-  
   ScrollView,
   KeyboardAvoidingView,
   Platform,
   StyleSheet,
   StatusBar,
-} from 'react-native';
-import Ionicons from '@react-native-vector-icons/ionicons';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { BRAND, useScreenMetrics } from '@/theme/theme';
+  useColorScheme,
+} from "react-native";
+import Ionicons from "@react-native-vector-icons/ionicons";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { BRAND, useScreenMetrics } from "@/theme/theme";
 
 // import { BRAND, useScreenMetrics } from '@/theme';
 
@@ -27,19 +27,37 @@ type NoteProp = {
 
 const index = () => {
   // 1. State for Theme Toggling
-  const [isDark, setIsDark] = useState(false);
-  
+  const [isDark, setIsDark] = useState(useColorScheme() === "dark");
+
   // 2. Get Metrics for Responsive Design
   const { width, fontScale, isTablet } = useScreenMetrics();
 
   // 3. Dynamic Styles Factory
-  const styles = useMemo(() => getStyles(width, fontScale, isDark), [width, fontScale, isDark]);
+  const styles = useMemo(
+    () => getStyles(width, fontScale, isDark),
+    [width, fontScale, isDark],
+  );
 
   // Mock Data
   const [notes] = useState<NoteProp[]>([
-    { id: 1, title: "Project Ideas", date: "Sep 10", content: "Build a react native app with green theme." },
-    { id: 2, title: "Grocery List", date: "Sep 09", content: "Apples, Bananas, Milk, Bread." },
-    { id: 3, title: "Meeting Notes", date: "Sep 08", content: "Discuss Q4 goals and marketing strategy." },
+    {
+      id: 1,
+      title: "Project Ideas",
+      date: "Sep 10",
+      content: "Build a react native app with green theme.",
+    },
+    {
+      id: 2,
+      title: "Grocery List",
+      date: "Sep 09",
+      content: "Apples, Bananas, Milk, Bread.",
+    },
+    {
+      id: 3,
+      title: "Meeting Notes",
+      date: "Sep 08",
+      content: "Discuss Q4 goals and marketing strategy.",
+    },
   ]);
 
   const [searchQuery, setSearchQuery] = useState("");
@@ -48,50 +66,75 @@ const index = () => {
   const filteredNotes = useMemo(() => {
     if (!searchQuery) return notes;
     const lowerQuery = searchQuery.toLowerCase();
-    return notes.filter(n => 
-      n.title.toLowerCase().includes(lowerQuery) || 
-      n.content.toLowerCase().includes(lowerQuery)
+    return notes.filter(
+      (n) =>
+        n.title.toLowerCase().includes(lowerQuery) ||
+        n.content.toLowerCase().includes(lowerQuery),
     );
   }, [notes, searchQuery]);
 
-  const toggleTheme = () => setIsDark(prev => !prev);
+  const toggleTheme = () => setIsDark((prev) => !prev);
 
-  const renderItem = useCallback(({ item }: { item: NoteProp }) => (
-    <Pressable style={styles.card}>
-      <View style={styles.cardContent}>
-        <Text style={styles.cardTitle}>{item.title}</Text>
-        <Text style={styles.cardDate}>{item.date}</Text>
-        <Text style={styles.cardPreview} numberOfLines={2}>{item.content}</Text>
-      </View>
-      <Ionicons name="chevron-forward" size={20} color={isDark ? BRAND.primaryDark : BRAND.primary} />
-    </Pressable>
-  ), [isDark]);
+  const renderItem = useCallback(
+    ({ item }: { item: NoteProp }) => (
+      <Pressable style={styles.card}>
+        <View style={styles.cardContent}>
+          <Text style={styles.cardTitle}>{item.title}</Text>
+          <Text style={styles.cardDate}>{item.date}</Text>
+          <Text style={styles.cardPreview} numberOfLines={2}>
+            {item.content}
+          </Text>
+        </View>
+        <Ionicons
+          name="chevron-forward"
+          size={20}
+          color={isDark ? BRAND.primaryDark : BRAND.primary}
+        />
+      </Pressable>
+    ),
+    [isDark],
+  );
 
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle={isDark ? "light-content" : "dark-content"} />
-      
+
       {/* Header */}
       <View style={styles.header}>
         <Text style={styles.headerTitle}>My Notes</Text>
         <Pressable onPress={toggleTheme} style={styles.themeBtn}>
-          <Ionicons name={isDark ? "sunny" : "moon"} size={24} color={isDark ? BRAND.textDark : BRAND.text} />
+          <Ionicons
+            name={isDark ? "sunny" : "moon"}
+            size={24}
+            color={isDark ? BRAND.textDark : BRAND.text}
+          />
         </Pressable>
       </View>
 
       {/* Search Bar */}
       <View style={styles.searchContainer}>
-        <Ionicons name="search" size={20} color={isDark ? BRAND.textSecondaryDark : BRAND.textSecondary} style={{ marginRight: 8 }} />
+        <Ionicons
+          name="search"
+          size={20}
+          color={isDark ? BRAND.textSecondaryDark : BRAND.textSecondary}
+          style={{ marginRight: 8 }}
+        />
         <TextInput
           style={styles.searchInput}
           placeholder="Search..."
-          placeholderTextColor={isDark ? BRAND.textSecondaryDark : BRAND.textSecondary}
+          placeholderTextColor={
+            isDark ? BRAND.textSecondaryDark : BRAND.textSecondary
+          }
           value={searchQuery}
           onChangeText={setSearchQuery}
         />
         {searchQuery.length > 0 && (
-          <Pressable onPress={() => setSearchQuery("")}>
-            <Ionicons name="close-circle" size={20} color={isDark ? BRAND.textSecondaryDark : BRAND.textSecondary} />
+          <Pressable hitSlop={20} onPress={() => setSearchQuery("")}>
+            <Ionicons
+              name="close-circle"
+              size={30}
+              color={isDark ? BRAND.textSecondaryDark : BRAND.textSecondary}
+            />
           </Pressable>
         )}
       </View>
@@ -100,7 +143,7 @@ const index = () => {
       <FlatList
         data={filteredNotes}
         renderItem={renderItem}
-        keyExtractor={item => item.id.toString()}
+        keyExtractor={(item) => item.id.toString()}
         contentContainerStyle={styles.listContent}
         ListEmptyComponent={
           <View style={styles.emptyState}>
@@ -136,9 +179,9 @@ const getStyles = (width: number, fontScale: number, isDark: boolean) => {
       backgroundColor: bg,
     },
     header: {
-      flexDirection: 'row',
-      justifyContent: 'space-between',
-      alignItems: 'center',
+      flexDirection: "row",
+      justifyContent: "space-between",
+      alignItems: "center",
       paddingHorizontal: padding,
       paddingVertical: 16,
       borderBottomWidth: 1,
@@ -146,15 +189,15 @@ const getStyles = (width: number, fontScale: number, isDark: boolean) => {
     },
     headerTitle: {
       fontSize: baseFont * 1.5,
-      fontWeight: 'bold',
+      fontWeight: "bold",
       color: text,
     },
     themeBtn: {
       padding: 8,
     },
     searchContainer: {
-      flexDirection: 'row',
-      alignItems: 'center',
+      flexDirection: "row",
+      alignItems: "center",
       backgroundColor: surface,
       margin: padding,
       padding: 12,
@@ -171,8 +214,8 @@ const getStyles = (width: number, fontScale: number, isDark: boolean) => {
       paddingBottom: 100,
     },
     card: {
-      flexDirection: 'row',
-      alignItems: 'center',
+      flexDirection: "row",
+      alignItems: "center",
       backgroundColor: surface,
       marginHorizontal: padding,
       marginBottom: 12,
@@ -187,7 +230,7 @@ const getStyles = (width: number, fontScale: number, isDark: boolean) => {
     },
     cardTitle: {
       fontSize: baseFont * 1.1,
-      fontWeight: '600',
+      fontWeight: "600",
       color: text,
       marginBottom: 4,
     },
@@ -202,7 +245,7 @@ const getStyles = (width: number, fontScale: number, isDark: boolean) => {
       lineHeight: baseFont * 1.4,
     },
     emptyState: {
-      alignItems: 'center',
+      alignItems: "center",
       marginTop: 50,
     },
     emptyText: {
@@ -210,17 +253,17 @@ const getStyles = (width: number, fontScale: number, isDark: boolean) => {
       fontSize: baseFont,
     },
     fab: {
-      position: 'absolute',
+      position: "absolute",
       bottom: 30,
       right: 30,
       width: 60,
       height: 60,
       borderRadius: 30,
       backgroundColor: primary,
-      alignItems: 'center',
-      justifyContent: 'center',
+      alignItems: "center",
+      justifyContent: "center",
       elevation: 5,
-      shadowColor: '#000',
+      shadowColor: "#000",
       shadowOffset: { width: 0, height: 2 },
       shadowOpacity: 0.3,
       shadowRadius: 4,
