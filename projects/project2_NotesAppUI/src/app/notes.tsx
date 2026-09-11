@@ -8,7 +8,6 @@ import {
   KeyboardAvoidingView,
   Platform,
   StyleSheet,
-  StatusBar,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Ionicons from '@react-native-vector-icons/ionicons';
@@ -26,22 +25,21 @@ const notes = () => {
     date: "Sep 10, 2026",
     content: "Build a react native app with green theme.\n\nFeatures:\n- Dark mode\n- Responsive design\n- Simple styling"
   });
-  
-  const [isEditing, setIsEditing] = useState(true);
 
   return (
     <SafeAreaView style={styles.container}>
       {/* Header */}
       <View style={styles.header}>
+
         <Pressable onPress={() => setIsDark(!isDark)} style={styles.iconBtn}>
           <Ionicons name={isDark ? "sunny" : "moon"} size={24} color={isDark ? BRAND.textDark : BRAND.text} />
         </Pressable>
       </View>
 
+          <Text style={styles.dateLabel}>{note.date}</Text>
       <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={{ flex: 1 }}>
         <ScrollView contentContainerStyle={styles.scrollContent}>
           
-          <Text style={styles.dateLabel}>{note.date}</Text>
           
           <TextInput
             style={styles.titleInput}
@@ -91,7 +89,7 @@ const getStyles = (width: number, fontScale: number, isDark: boolean) => {
     },
     header: {
       flexDirection: 'row',
-      justifyContent: 'space-between',
+      justifyContent: 'flex-end',
       alignItems: 'center',
       paddingHorizontal: padding,
       paddingVertical: 16,
