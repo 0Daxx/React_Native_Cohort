@@ -5,9 +5,6 @@ import {
   TextInput,
   Pressable,
   FlatList,
-  ScrollView,
-  KeyboardAvoidingView,
-  Platform,
   StyleSheet,
   StatusBar,
   useColorScheme,
@@ -15,21 +12,16 @@ import {
 import Ionicons from "@react-native-vector-icons/ionicons";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { BRAND, useScreenMetrics } from "@/theme/theme";
-
-// import { BRAND, useScreenMetrics } from '@/theme';
-
-type NoteProp = {
-  id: number;
-  title: string;
-  date: string;
-  content: string;
-};
+import { useRouter  } from "expo-router";
+import {useNotesStore, NoteProp } from "@/store/notesStore";
 
 const index = () => {
-  // 1. State for Theme Toggling
+  const notes = useNotesStore((state) => state.notes)
+  const updateNote = useNotesStore((state)=> state.updateNote)
+
+  const router = useRouter();
   const [isDark, setIsDark] = useState(useColorScheme() === "dark");
 
-  // 2. Get Metrics for Responsive Design
   const { width, fontScale, isTablet } = useScreenMetrics();
 
   // 3. Dynamic Styles Factory
@@ -38,27 +30,6 @@ const index = () => {
     [width, fontScale, isDark],
   );
 
-  // Mock Data
-  const [notes] = useState<NoteProp[]>([
-    {
-      id: 1,
-      title: "Project Ideas",
-      date: "Sep 10",
-      content: "Build a react native app with green theme.",
-    },
-    {
-      id: 2,
-      title: "Grocery List",
-      date: "Sep 09",
-      content: "Apples, Bananas, Milk, Bread.",
-    },
-    {
-      id: 3,
-      title: "Meeting Notes",
-      date: "Sep 08",
-      content: "Discuss Q4 goals and marketing strategy.",
-    },
-  ]);
 
   const [searchQuery, setSearchQuery] = useState("");
 
@@ -77,7 +48,7 @@ const index = () => {
 
   const renderItem = useCallback(
     ({ item }: { item: NoteProp }) => (
-      <Pressable style={styles.card}>
+      <Pressable style={styles.card} onPress={() => router.push(`/notes/${item.id}`)  }>
         <View style={styles.cardContent}>
           <Text style={styles.cardTitle}>{item.title}</Text>
           <Text style={styles.cardDate}>{item.date}</Text>
