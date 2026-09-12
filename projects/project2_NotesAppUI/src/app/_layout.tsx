@@ -9,7 +9,7 @@ export default function RootLayout() {
         name="index"
           />
       <Stack.Screen
-        name="notes/[notes]"
+        name="notes/[notescreen]"
       />
     </Stack>
     </ThemeProvider>
