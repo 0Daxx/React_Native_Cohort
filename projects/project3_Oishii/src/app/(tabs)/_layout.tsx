@@ -6,6 +6,9 @@ export default function MainTabLayout() {
       screenOptions={{
         headerShown: false,
       }}
-    />
+    >
+      <Tabs.Screen name="home" />
+      <Tabs.Screen name="(profile)" />
+    </Tabs>
   );
 }
