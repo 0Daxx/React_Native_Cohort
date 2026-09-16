@@ -8,21 +8,21 @@ export default function MainTabLayout() {
       }}
     >
       <Tabs.Screen
-        name="home"
-        options={{
-          tabBarIcon: ({ color }) => (
-            <Ionicons name="home" size={30} color={color} />
-          ),
-          tabBarLabel: "Home",
-        }}
-      />
-      <Tabs.Screen
         name="search"
         options={{
           tabBarIcon: ({ color }) => (
             <Ionicons name="search" size={30} color={color} />
           ),
           tabBarLabel: "Search",
+        }}
+      />
+      <Tabs.Screen
+        name="home"
+        options={{
+          tabBarIcon: ({ color }) => (
+            <Ionicons name="home" size={30} color={color} />
+          ),
+          tabBarLabel: "Home",
         }}
       />
       <Tabs.Screen
