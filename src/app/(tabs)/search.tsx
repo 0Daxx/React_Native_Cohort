@@ -1,7 +1,19 @@
-import { StyleSheet, Text, TextInput, View } from "react-native";
+import { StyleSheet, Text, TextInput, View, Image } from "react-native";
 import React, { useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@react-native-vector-icons/ionicons";
+
+export interface Restaurant {
+  id: string;
+  name: string;
+  offer: string;
+  rating: string;
+  isAd?: boolean;
+  img: string;
+  discount?: string;
+  deliveryTime?: string;
+  deliveryFee?: string;
+}
 
 const search = () => {
   const [searchText, setSearchText] = useState<string>("");
@@ -62,6 +74,53 @@ const search = () => {
       img: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=500&q=80",
     },
   ];
+
+  // restaurant card
+  const RestaurantCard = ({ restaurant }: { restaurant: any }) => {
+    return (
+      <View
+        style={{
+          // flex:1,
+          width: "90%",
+          marginBottom: 20,
+          padding: 10,
+          borderWidth: 1,
+          borderRadius: 10,
+          flexDirection: "row",
+          alignItems: "center",
+          justifyContent: "flex-start",
+          backgroundColor: "#fff",
+        }}
+      >
+        <Image
+          source={{ uri: "@/assets/images/onboard1.png" }}
+          style={{
+            width: "20%",
+            height: 150,
+            borderRadius: 10,
+            backgroundColor: "#ccc",
+          }}
+        />
+        <View
+          style={{
+            marginLeft: 10,
+            flex: 1,
+            justifyContent: "space-between",
+            alignItems: "flex-start",
+          }}
+        >
+          <Text style={{ fontSize: 18, fontWeight: "bold" }}>
+            {restaurant.name}
+          </Text>
+          <Text>{restaurant.time}</Text>
+          <Text>{restaurant.offer}</Text>
+          <View style={{ flexDirection: "row", alignItems: "center"  , justifyContent: "flex-end" , }}>
+            <Text>Rating: {restaurant.rating}</Text>
+          </View>
+        </View>
+      </View>
+    );
+  };
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
@@ -100,6 +159,8 @@ const search = () => {
             />
           )}
         </View>
+
+        <RestaurantCard restaurant={SEARCH_RESULTS[0]} />
       </View>
     </SafeAreaView>
   );
