@@ -1,14 +1,110 @@
-import { StyleSheet, Text, View } from "react-native";
-import React from "react";
+import { StyleSheet, Text, TextInput, View } from "react-native";
+import React, { useEffect, useState } from "react";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { Ionicons } from "@react-native-vector-icons/ionicons";
 
-const Search = () => {
+const search = () => {
+  const [searchText, setSearchText] = useState<string>("");
+
+  const handleSearch = (text: string) => {
+    setSearchText(text);
+    // You can add your search logic here, e.g., filtering a list based on the search text
+  };
+
+  useEffect(() => {
+    handleSearch(searchText);
+  }, [searchText]);
+
+  // MOCK Data
+  const SEARCH_RESULTS = [
+    {
+      id: "1",
+      name: "Apni Rasoi",
+      time: "30-35 mins",
+      offer: "50% OFF on select items",
+      rating: "4.2",
+      img: "https://images.unsplash.com/photo-1585937421612-70a008356f36?w=500&q=80",
+    },
+    {
+      id: "2",
+      name: "Hum Tum",
+      time: "45-50 mins",
+      offer: "Flat ₹150 OFF above ₹299",
+      rating: "4.0",
+      isAd: true,
+      img: "https://images.unsplash.com/photo-1601050690597-df0568f70950?w=500&q=80",
+    },
+    {
+      id: "3",
+      name: "Punjabi Dhaba",
+      time: "40-45 mins",
+      offer: "30% OFF up to ₹75 above ₹99",
+      rating: "4.0",
+      isAd: true,
+      img: "https://images.unsplash.com/photo-1565557623262-b51c2513a641?w=500&q=80",
+    },
+    {
+      id: "4",
+      name: "Shri Balaji Rasoi",
+      time: "45-50 mins",
+      offer: "50% OFF on select items",
+      rating: "3.9",
+      isAd: true,
+      img: "https://images.unsplash.com/photo-1589302168068-964664d93dc0?w=500&q=80",
+    },
+    {
+      id: "5",
+      name: "Rajdharam",
+      time: "25-30 mins",
+      offer: "Free delivery",
+      rating: "3.9",
+      isAd: false,
+      img: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=500&q=80",
+    },
+  ];
   return (
-    <View>
-      <Text>Search</Text>
-    </View>
+    <SafeAreaView style={{ flex: 1 }}>
+      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+        {/* <Text>search</Text> */}
+
+        {/* Search Bar  */}
+        <View
+          style={{
+            flexDirection: "row",
+            alignItems: "center",
+            borderWidth: 1,
+            borderRadius: 10,
+            paddingHorizontal: 10,
+            marginBottom: 20,
+          }}
+        >
+          <TextInput
+            placeholder="Search Restaurants, Cuisines, Dishes"
+            value={searchText}
+            onChangeText={setSearchText}
+            style={{
+              width: "80%",
+              height: 40,
+              // borderWidth: 1,
+              borderRadius: 10,
+              padding: 10,
+            }}
+          />
+          {searchText.length > 0 && (
+            <Ionicons
+              name="close-circle"
+              size={24}
+              hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+              color="black"
+              onPress={() => setSearchText("")}
+            />
+          )}
+        </View>
+      </View>
+    </SafeAreaView>
   );
 };
 
-export default Search;
+export default search;
 
 const styles = StyleSheet.create({});
