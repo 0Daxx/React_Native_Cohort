@@ -1,9 +1,9 @@
-import { StyleSheet, Text, TextInput, View, Image, FlatList } from "react-native";
+import { StyleSheet, Text, TextInput, View, Image, FlatList , Pressable} from "react-native";
 import React, { useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@react-native-vector-icons/ionicons";
 
-export interface Restaurant {
+export interface RestaurantProps {
   id: string;
   name: string;
   offer: string;
@@ -14,8 +14,9 @@ export interface Restaurant {
   deliveryTime?: string;
   deliveryFee?: string;
 }
-
+import { useRouter } from "expo-router";
 const search = () => {
+  const router = useRouter();
   const [searchText, setSearchText] = useState<string>("");
 
   const handleSearch = (text: string) => {
@@ -80,9 +81,10 @@ const search = () => {
   // const restaurants = searchText.length > 0 ? FILTERED_RESULTS : SEARCH_RESULTS;
 
   // restaurant card
-  const RestaurantCard = ({ restaurant }: { restaurant: any }) => {
+  const RestaurantCard = ({ restaurant }: { restaurant: RestaurantProps }) => {
     return (
-      <View
+      <Pressable
+        onPress={() => router.push(`/(restaurant)/${restaurant.id}`)}
         style={{
           flex:1,
           // width: "90%",
@@ -116,15 +118,17 @@ const search = () => {
           <Text style={{ fontSize: 18, fontWeight: "bold" }}>
             {restaurant.name}
           </Text>
-          <Text>{restaurant.time}</Text>
+          <Text>{restaurant.deliveryTime}</Text>
           <Text>{restaurant.offer}</Text>
           <View style={{ flexDirection: "row", alignItems: "center"  , justifyContent: "flex-end" , }}>
             <Text>Rating: {restaurant.rating}</Text>
           </View>
         </View>
-      </View>
+      </Pressable>
     );
   };
+
+  
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
