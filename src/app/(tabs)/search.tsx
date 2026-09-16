@@ -1,4 +1,4 @@
-import { StyleSheet, Text, TextInput, View, Image } from "react-native";
+import { StyleSheet, Text, TextInput, View, Image, FlatList } from "react-native";
 import React, { useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@react-native-vector-icons/ionicons";
@@ -74,14 +74,18 @@ const search = () => {
       img: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=500&q=80",
     },
   ];
+  const FILTERED_RESULTS = SEARCH_RESULTS.filter((restaurant) =>
+    restaurant.name.toLowerCase().includes(searchText.toLowerCase())
+  );
+  // const restaurants = searchText.length > 0 ? FILTERED_RESULTS : SEARCH_RESULTS;
 
   // restaurant card
   const RestaurantCard = ({ restaurant }: { restaurant: any }) => {
     return (
       <View
         style={{
-          // flex:1,
-          width: "90%",
+          flex:1,
+          // width: "90%",
           marginBottom: 20,
           padding: 10,
           borderWidth: 1,
@@ -160,7 +164,13 @@ const search = () => {
           )}
         </View>
 
-        <RestaurantCard restaurant={SEARCH_RESULTS[0]} />
+        {/* Search Results  */}
+        <FlatList 
+          style={{ flex: 1 , width: "100%" , paddingHorizontal: 20 , }}
+          data={searchText.length > 0 ? FILTERED_RESULTS : SEARCH_RESULTS}
+          renderItem={({ item }) => <RestaurantCard restaurant={item} />}
+          keyExtractor={(item) => item.id}
+        />
       </View>
     </SafeAreaView>
   );
