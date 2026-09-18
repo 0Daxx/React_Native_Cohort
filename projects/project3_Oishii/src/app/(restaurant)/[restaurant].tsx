@@ -10,25 +10,13 @@ import React, { useState, useMemo } from "react";
 import { useLocalSearchParams } from "expo-router";
 import Ionicons from "@react-native-vector-icons/ionicons";
 
+import {DishProp, CartItem} from "@/types/type";
+
 const restaurant = () => {
   const { restaurantId } = useLocalSearchParams();
 
   // fetch restaurant data based on restaurantId . RESTAURANTS has many dishes
 
-  interface DishProp {
-    id: string;
-    name: string;
-    description: string;
-    price: number;
-    image: string;
-    discount?: string;
-    isVegetarian?: boolean;
-    // quantity?: number;
-  }
-  interface CartItem {
-    dish: DishProp;
-    quantity: number;
-  }
 
   const RenderDishItem = (dish: DishProp) => {
     const dishInCart = cart.find((item) => item.dish.id === dish.id);
