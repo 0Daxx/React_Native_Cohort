@@ -3,17 +3,8 @@ import React, { useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@react-native-vector-icons/ionicons";
 
-export interface RestaurantProps {
-  id: string;
-  name: string;
-  offer: string;
-  rating: string;
-  isAd?: boolean;
-  img: string;
-  discount?: string;
-  deliveryTime?: string;
-  deliveryFee?: string;
-}
+import { RestaurantProps } from "@/types/type";
+
 import { useRouter } from "expo-router";
 const search = () => {
   const router = useRouter();
