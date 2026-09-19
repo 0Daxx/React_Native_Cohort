@@ -24,4 +24,6 @@ export interface RestaurantProps {
   discount?: string;
   deliveryTime?: string;
   deliveryFee?: string;
+  dishes: DishProp[];
+  location?: string;
 }

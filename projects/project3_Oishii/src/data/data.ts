@@ -1,6 +1,6 @@
 import { DishProp, RestaurantProps } from "@/types/type";
 
-// export const RestaurantDetails: RestaurantProps =
+// restaurant and its dishes data
 export const dishes: DishProp[] = [
   {
     id: "1",
@@ -32,3 +32,60 @@ export const dishes: DishProp[] = [
     // quantity: 0,
   },
 ];
+export const restaurantData: RestaurantProps[] = [
+  {
+    id: "1",
+    name: "Apni Rasoi",
+    deliveryTime: "30-35 mins",
+    offer: "50% OFF on select items",
+    rating: "4.2",
+    img: "https://images.unsplash.com/photo-1585937421612-70a008356f36?w=500&q=80",
+    dishes: dishes,
+    location: "123 Main Street, Cityville",
+  },
+  {
+    id: "2",
+    name: "Hum Tum",
+    deliveryTime: "45-50 mins",
+    offer: "Flat ₹150 OFF above ₹299",
+    rating: "4.0",
+    isAd: true,
+    img: "https://images.unsplash.com/photo-1601050690597-df0568f70950?w=500&q=80",
+    dishes: dishes,
+    location: "123 Main Street, Cityville",
+  },
+  {
+    id: "3",
+    name: "Punjabi Dhaba",
+    deliveryTime: "40-45 mins",
+    offer: "30% OFF up to ₹75 above ₹99",
+    rating: "4.0",
+    isAd: true,
+    img: "https://images.unsplash.com/photo-1565557623262-b51c2513a641?w=500&q=80",
+    dishes: dishes,
+    location: "123 Main Street, Cityville",
+  },
+  {
+    id: "4",
+    name: "Shri Balaji Rasoi",
+    deliveryTime: "45-50 mins",
+    offer: "50% OFF on select items",
+    rating: "3.9",
+    isAd: true,
+    img: "https://images.unsplash.com/photo-1589302168068-964664d93dc0?w=500&q=80",
+    dishes: dishes,
+    location: "123 Main Street, Cityville",
+  },
+  {
+    id: "5",
+    name: "Rajdharam",
+    deliveryTime: "25-30 mins",
+    offer: "Free delivery",
+    rating: "3.9",
+    isAd: false,
+    img: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=500&q=80",
+    dishes: dishes,
+    location: "123 Main Street, Cityville",
+  },
+];
+// export const RestaurantDetails: RestaurantProps =

@@ -7,16 +7,34 @@ import {
   Pressable,
 } from "react-native";
 import React, { useState, useMemo } from "react";
-import { useLocalSearchParams } from "expo-router";
+import { useLocalSearchParams, usePathname } from "expo-router";
 import Ionicons from "@react-native-vector-icons/ionicons";
 
 import {DishProp, CartItem} from "@/types/type";
+import { useCart } from "@/hooks/useCart";
+import { restaurantData } from "@/data/data";
 
 const restaurant = () => {
-  const { restaurantId } = useLocalSearchParams();
+  const { cart, addItem , removeItem } = useCart();
+  const pathname = usePathname();
+  const restaurantId = pathname.split("restaurantId=")[1];
+
+  const restaurant = restaurantData.find((r) => r.id === restaurantId);
+
+  const dishes = restaurant?.dishes || [];
 
   // fetch restaurant data based on restaurantId . RESTAURANTS has many dishes
 
+  const handleAddToCart = (id: string) => {
+    const dish = dishes.find((d) => d.id === id);
+    if (dish) {
+      addItem(dish);
+    }
+  };
+  
+  const handleRemoveFromCart = (id: string) => {
+    removeItem(id);
+  };
 
   const RenderDishItem = (dish: DishProp) => {
     const dishInCart = cart.find((item) => item.dish.id === dish.id);
@@ -83,7 +101,7 @@ const restaurant = () => {
             </Text>
             <Pressable
               onPress={() => {
-                handleAddToCart(dish);
+                handleAddToCart(dish.id);
               }}
               hitSlop={30}
             >
@@ -94,90 +112,14 @@ const restaurant = () => {
       </View>
     );
   };
-  const dishes: DishProp[] = [
-    {
-      id: "1",
-      name: "Spaghetti Bolognese",
-      description: "Classic Italian pasta dish with rich meat sauce.",
-      price: 12.99,
-      image: "spaghetti.jpg",
-      discount: "20% OFF",
-      isVegetarian: true,
-      // quantity: 2,
-    },
-    {
-      id: "2",
-      name: "Margherita Pizza",
-      description:
-        "Traditional pizza with fresh tomatoes, mozzarella, and basil.",
-      price: 10.99,
-      image: "margherita.jpg",
-      discount: "10% OFF",
-      isVegetarian: false,
-      // quantity: 2,
-    },
-    {
-      id: "3",
-      name: "Caesar Salad",
-      description: "Crisp romaine lettuce with Caesar dressing and croutons.",
-      price: 8.99,
-      image: "caesar.jpg",
-      // quantity: 0,
-    },
-  ];
   const dishListRef = React.useRef<FlatList<DishProp>>(null);
 
-  const handleRemoveFromCart = (dishId: string) => {
-    setCart((prevCart) => {
-      const existingItem = prevCart.find((item) => item.dish.id === dishId);
-
-      if (!existingItem) return prevCart;
-
-      if (existingItem.quantity > 1) {
-        // Decrement quantity
-        return prevCart.map((item) =>
-          item.dish.id === dishId
-            ? { ...item, quantity: item.quantity - 1 }
-            : item,
-        );
-      } else {
-        // Remove item entirely if quantity is 1
-        return prevCart.filter((item) => item.dish.id !== dishId);
-      }
-    });
-  };
-
-  const [cart, setCart] = useState<CartItem[]>([]);
-
-  // OPTIMIZATION: Create a Map for instant lookups instead of .find()
-  // This prevents UI lag when you have many dishes
   const cartMap = useMemo(() => {
     const map = new Map<string, number>();
     cart.forEach((item) => map.set(item.dish.id, item.quantity));
     return map;
   }, [cart]);
 
-  const handleAddToCart = (dish: DishProp) => {
-    setCart((prevCart) => {
-      const existingIndex = prevCart.findIndex(
-        (item) => item.dish.id === dish.id,
-      );
-
-      if (existingIndex >= 0) {
-        // Item exists: Update quantity immutably
-        const newCart = [...prevCart];
-        newCart[existingIndex] = {
-          ...newCart[existingIndex],
-          quantity: newCart[existingIndex].quantity + 1,
-        };
-        return newCart;
-      } else {
-        // Item doesn't exist: Add new entry
-        return [...prevCart, { dish, quantity: 1 }];
-      }
-    });
-  };
-  // Helper to get quantity safely in render
   const getQuantity = (dishId: string) => cartMap.get(dishId) || 0;
 
   return (
@@ -189,14 +131,16 @@ const restaurant = () => {
 
       {/* restaurant details */}
       <View>
-        <Text>Restaurant Name</Text>
+        <Text style={{ fontSize: 24, fontWeight: "bold" }}>
+          {restaurant?.name }
+        </Text>
         <View style={{ flexDirection: "row", alignItems: "center" }}>
           <Ionicons name="pin-outline" size={30} />
-          <Text>Location</Text>
+          <Text>{restaurant?.location}</Text>
         </View>
         <View style={{ flexDirection: "row", alignItems: "center" }}>
           <Ionicons name="time-outline" size={30} />
-          <Text>45-50 min</Text>
+          <Text>{restaurant?.deliveryTime}</Text>
         </View>
       </View>
 
@@ -209,8 +153,6 @@ const restaurant = () => {
         renderItem={({ item }) => <RenderDishItem key={item.id} {...item} />}
         ref={dishListRef}
       />
-
-      <Text>{restaurantId}</Text>
     </View>
   );
 };
