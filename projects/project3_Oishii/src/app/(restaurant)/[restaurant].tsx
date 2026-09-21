@@ -7,18 +7,25 @@ import {
   Pressable,
 } from "react-native";
 import React, { useState, useMemo } from "react";
-import { useLocalSearchParams, usePathname } from "expo-router";
+import { useLocalSearchParams, usePathname, useRouter } from "expo-router";
 import Ionicons from "@react-native-vector-icons/ionicons";
 
-import {DishProp, CartItem} from "@/types/type";
+import { DishProp, CartItem } from "@/types/type";
 import { useCart } from "@/hooks/useCart";
 import { restaurantData } from "@/data/data";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const restaurant = () => {
-  const { cart, addItem , removeItem } = useCart();
+  const router = useRouter();
+  const params = useLocalSearchParams();
+  const { cart, addItem, removeItem } = useCart();
   const pathname = usePathname();
   const restaurantId = pathname.split("restaurantId=")[1];
+  if (!restaurantId) {
+    // router.push("/(tabs)");   // ERROR 2 : redirect to home page if restaurantId is not found BUT 
+    // return null;   // ERROR 1 : early return null to avoid rendering the component when restaurantId is not found THIS CAUSES AN ERROR IN THE APP. Instead, we can redirect the user to the home page if restaurantId is not found.
 
+  }
   const restaurant = restaurantData.find((r) => r.id === restaurantId);
 
   const dishes = restaurant?.dishes || [];
@@ -30,8 +37,10 @@ const restaurant = () => {
     if (dish) {
       addItem(dish);
     }
+    console.log(cart.length);
+    console.log("cart\n\n",cart);
   };
-  
+
   const handleRemoveFromCart = (id: string) => {
     removeItem(id);
   };
@@ -123,7 +132,7 @@ const restaurant = () => {
   const getQuantity = (dishId: string) => cartMap.get(dishId) || 0;
 
   return (
-    <View>
+    <SafeAreaView style={{ flex: 1, backgroundColor: "white", padding: 10 }}>
       <Image
         source={{ uri: "@/assets/images/onboard1.png" }}
         style={{ width: "100%", backgroundColor: "rgb(0, 26, 155)" }}
@@ -132,7 +141,7 @@ const restaurant = () => {
       {/* restaurant details */}
       <View>
         <Text style={{ fontSize: 24, fontWeight: "bold" }}>
-          {restaurant?.name }
+          {restaurant?.name}
         </Text>
         <View style={{ flexDirection: "row", alignItems: "center" }}>
           <Ionicons name="pin-outline" size={30} />
@@ -153,7 +162,33 @@ const restaurant = () => {
         renderItem={({ item }) => <RenderDishItem key={item.id} {...item} />}
         ref={dishListRef}
       />
-    </View>
+
+      {/* cart  */}
+      <View style={{ position: "absolute", bottom: 0, width: "100%" }}>
+        {cart.length > 0 && (
+          <Pressable
+            style={{
+              backgroundColor: "rgb(26, 188, 115)",
+              padding: 10,
+              borderRadius: 10,
+              margin: 10,
+              position: "absolute",
+              bottom: 30,
+              width: "95%",
+              alignItems: "center",
+            }}
+            onPress={() => {
+              // navigate to cart page
+              router.push("/(cart)/cart");
+            }}
+          >
+            <Text style={{ color: "white", fontWeight: "bold" }}>
+              View Cart ({cart.length})
+            </Text>
+          </Pressable>
+        )}
+      </View>
+    </SafeAreaView>
   );
 };
 

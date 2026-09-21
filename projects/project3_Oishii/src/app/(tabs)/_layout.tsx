@@ -1,6 +1,13 @@
 import { Tabs } from "expo-router";
 import { Ionicons } from "@react-native-vector-icons/ionicons";
+import { useCart } from "@/hooks/useCart";
+import { useEffect } from "react";
 export default function MainTabLayout() {
+  const { cart } = useCart();
+  console.log("cart.length", cart.length);
+  useEffect(() => {
+    console.log("cart.length", cart.length);
+  }, [cart]);
   return (
     <Tabs
       screenOptions={{
@@ -32,6 +39,8 @@ export default function MainTabLayout() {
             <Ionicons name="cart" size={30} color={color} />
           ),
           tabBarLabel: "Orders",
+          // tabBarBadge: 5,
+          tabBarBadge: cart.length > 0 ? cart.length : undefined,
         }}
       />
       <Tabs.Screen
