@@ -1,8 +1,18 @@
-import { Text, View, StyleSheet } from "react-native";
+import { Text, View, StyleSheet, Button, FlatList, } from "react-native";
 import * as SecureStore from "expo-secure-store";
 import { useState } from "react";
+import { SafeAreaView } from "react-native-safe-area-context";
+
+
 export default function Index() {
   const [output, setOutput] = useState<string | null>(null);
+
+  const renderButton = (title: string, onPress: () => void) => {
+    return (
+      <Button title={title} onPress={onPress} />
+    )
+  }
+  // const [reference, setReference] = useState<FlatList<{ id: string; title: string; onPress: () => void }> | null>(null);
 
   const saveToken = async () => {
     try {
@@ -42,10 +52,25 @@ export default function Index() {
   }
   return (
 
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <Text>{output}</Text>
-      <Text>Edit src/app/index.tsx to edit this screen.</Text>
-    </View>
+
+      <FlatList data={[
+        { id: "1", title: "Save Token", onPress: saveToken },
+        { id: "2", title: "Get Token", onPress: getToken },
+        { id: "3", title: "Delete Token", onPress: deleteToken },
+        { id: "4", title: "Check Availability", onPress: checkAvailability },
+        { id: "5", title: "Save Object", onPress: saveObject }
+      ]} keyExtractor={(item) => item.id}
+        // renderItem={({ item }) => renderButton(item.title, item.onPress)} 
+        renderItem={({ item }) => renderButton(item.title, item.onPress)}
+      // ref={reference}
+      />
+
+      <View style={{ marginTop: 20 , borderWidth: 1, borderColor: "black", padding: 10, width: "80%", alignItems: "center" }}>
+        <Text>Output : {output}</Text>
+      </View>
+    </SafeAreaView>
   );
 }
 
