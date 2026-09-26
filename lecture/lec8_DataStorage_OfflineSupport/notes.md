@@ -63,7 +63,14 @@ const allRows = await (db).getAllAsync("SELECT * FROM todos");
       setOutput(JSON.stringify(allRows));
       console.log("allRows:", allRows);
 
-2. 
+2. ERROR : 'FileSystemDirectory.create' has been rejected.
+→ Caused by: Unable to create file or directory: it already exists 
+Solution : // check if folder exists, if not create it
+    if (!folder.exists ) {
+      folder.create();
+    } 
+  
+
 
 
 ### timestamp 
@@ -72,4 +79,8 @@ const allRows = await (db).getAllAsync("SELECT * FROM todos");
 ### Homework 
 1. Find how cloud db like turso can be synced with local expo-sqlite db 
 - push , pull mechanism 
-2. 
+2. Articles 
+- How whatsapp work without internet 
+- how instagram stores reel photos drafts 
+
+Lecture Finished : 26 September 7:50 pm 
