@@ -1,6 +1,8 @@
 import { FlatList, StyleSheet, Text, View, Button, Image } from 'react-native'
 import React, { useState } from 'react'
 import { File, Paths, Directory } from 'expo-file-system'
+import * as  DocumentPicker from 'expo-document-picker';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const FileSystem = () => {
   const [output, setOutput] = useState<string | null>(null);
@@ -94,7 +96,11 @@ const FileSystem = () => {
     setImageUri(downloadableFile.uri);
   }
   return (
-    <View>
+    <SafeAreaView style={{
+      flex: 1,
+      alignItems: "center",
+      //  justifyContent: "center"
+    }}>
       <Text>FileSystem</Text>
 
       <FlatList data={[
@@ -117,11 +123,38 @@ const FileSystem = () => {
         <Text>Output: {output} </Text>
         {/* <Text>file : {demoFile.textSync()}</Text> */}
       </View>
-      {imageUri && 
+      {imageUri &&
         <Image source={{ uri: (imageUri) }} style={{ width: 200, height: 300 }} />
       }
 
-    </View>
+      {/* task : pick file pdf or text and display its content */}
+      <Button title='Pick File' onPress={async () => {
+
+        try {
+          const result = await DocumentPicker.getDocumentAsync({
+            copyToCacheDirectory: true,
+            type: ["application/pdf", "text/plain"]
+          });
+          if (!result.canceled) {
+            const { uri: fileUri } = result.assets[0];
+
+            const file = new File(fileUri);
+            const fileName = result.assets[0].name;
+            const fileType = result.assets[0].mimeType;
+            setOutput(`Picked file: ${fileName} (${fileType})`);
+            console.log("Picked file:", fileUri);
+            console.log("File data \n\n\n ", file.textSync());
+          } else {
+            setOutput("File picking canceled");
+          }
+        } catch (error) {
+          console.error("Error picking file:", error);
+          setOutput("Error picking file");
+        }
+        // const file = new File(Paths.document, "appFile.txt");
+      }} />
+
+    </SafeAreaView>
   )
 }
 

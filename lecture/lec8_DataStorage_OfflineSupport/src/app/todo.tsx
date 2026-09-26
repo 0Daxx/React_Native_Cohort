@@ -1,16 +1,13 @@
 import * as SQLite from "expo-sqlite";
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Button, FlatList, StyleSheet, Text, TextInput, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-
-
-
 
 type Todo = {
   id: number;
   title: string;
   completed: boolean;
-  subTasks: SubTask[];
+  // subTasks: SubTask[];
   deadline: string;
   priority: string;
   notes: string;
@@ -43,7 +40,8 @@ const todo = () => {
   const [newTodoTitle, setNewTodoTitle] = useState<string>("new title");
   const [newSubTaskTitle, setNewSubTaskTitle] = useState<string>("");
   const [selectedTodoId, setSelectedTodoId] = useState<number | null>(null);
-  const [newDeadline, setNewDeadline] = useState<string>("18 dec 2023");
+  // const [newDeadline, setNewDeadline] = useState<string | Date>(Date.now().toString());
+  const [newDeadline, setNewDeadline] = useState<string | Date>("18 dec 2023");
   const [newPriority, setNewPriority] = useState<string>("1");
   const [newNotes, setNewNotes] = useState<string>("hehe");
   const [output, setOutput] = useState<string | null>(null);
@@ -72,11 +70,9 @@ const todo = () => {
 
   const insertTodo = async (title: string) => {
     try {
-      // PRAGMA journal_mode = WAL;
+      setNewDeadline(Date.now().toString());
       (db).runAsync(`
-        INSERT INTO todos (title, completed  , deadline, priority, notes) VALUES ("title1", 0, "18 dec 2023", "1", "hehe");`,);
-        // INSERT INTO todos (title, completed  , deadline, priority, notes) VALUES ("${title}", 0, "${newDeadline}", "${newPriority}", "${newNotes}");`,);
-      // INSERT INTO todos (title, completed  , deadline, priority, notes) VALUES (?, ?, ?, ?, ?);`, title, 0, newDeadline, newPriority, newNotes);
+      INSERT INTO todos (title, completed  , deadline, priority, notes) VALUES (?, ?, ?, ?, ?);`, title, 0, newDeadline.toString(), newPriority, newNotes);
       console.log("Todo inserted successfully");
       // getTodos();
     } catch (error) {
@@ -86,12 +82,7 @@ const todo = () => {
 
   const getTodos = async () => {
     try {
-      const allRows = (db).getAllAsync("SELECT * FROM todos");
-      // const allRows = (db).getAllAsync("SELECT * FROM todos WHERE id = 1;");
-      // const allRows = (db).getAllAsync("SELECT * FROM todos ");
-      // console.log("allRows:", allRows.title)
-      // const result = await allRows;
-      // setTodos(result[0].rows._array);
+      const allRows = await (db).getAllAsync("SELECT * FROM todos");
       setOutput(JSON.stringify(allRows));
       console.log("allRows:", allRows);
       console.log("\n\n\n", JSON.stringify(allRows, null, 2));
@@ -102,6 +93,16 @@ const todo = () => {
   };
 
   // const TodoList
+  const renderTodoItem = useCallback(({ item }: { item: Todo }) => {
+    return (
+      <View style={{ padding: 10, borderBottomWidth: 1, borderBottomColor: "#ccc" }}>
+        <Text>{item.title}</Text>
+        <Text>Deadline: {item.deadline}</Text>
+        <Text>Priority: {item.priority}</Text>
+        <Text>Notes: {item.notes}</Text>
+      </View>
+    )
+  }, []);
 
   return (
     <SafeAreaView style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
@@ -114,14 +115,7 @@ const todo = () => {
       <Button title="Get Todos" onPress={getTodos} />
       <FlatList
         data={todos}
-        renderItem={({ item }) => (
-          <View style={{ padding: 10, borderBottomWidth: 1, borderBottomColor: "#ccc" }}>
-            <Text>{item.title}</Text>
-            <Text>Deadline: {item.deadline}</Text>
-            <Text>Priority: {item.priority}</Text>
-            <Text>Notes: {item.notes}</Text>
-          </View>
-        )}
+        renderItem={({ item }) => renderTodoItem({ item })}
         keyExtractor={(item) => item.id.toString()}
         ListEmptyComponent={() => (
           <View style={{ padding: 10 }}>
