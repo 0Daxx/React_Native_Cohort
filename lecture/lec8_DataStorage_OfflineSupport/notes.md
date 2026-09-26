@@ -1,6 +1,6 @@
 ## NOTES 
  
- 
+
 ### AsyncStorage
 -  is a local storage system for React Native and Expo application 
 - stores in key value pair 
@@ -70,8 +70,15 @@ Solution : // check if folder exists, if not create it
       folder.create();
     } 
   
+3.  ERROR  Error picking file: [Error: Call to function 'FileSystemFile.textSync' has been rejected.
+→ Caused by: Missing 'READ' permission for accessing the file.] 
 
+Code: FileSystem.tsx
+  144 |             setOutput(`Picked file: ${fileName} (${fileType})`);
+  145 |             console.log("Picked file:", fileUri);
+> 146 |             console.log("File data \n\n\n ", file.textSync());
 
+Solution : will learn getting file permission in the next lecture 
 
 ### timestamp 
 1:40 Expo file system 
