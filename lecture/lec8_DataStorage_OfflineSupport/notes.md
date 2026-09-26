@@ -37,3 +37,22 @@ TASK : chatbot with api secret ,
 - bunx expo install expo-sqlite
 ### react concepts 
 - useCallback , useMemo 
+
+### Error 
+
+1. forgot to add await when calling a async function leading to give the promise instead of data 
+
+const allRows = await (db).getAllAsync("SELECT * FROM todos");
+      setOutput(JSON.stringify(allRows));
+      console.log("allRows:", allRows);
+
+2. 
+
+
+### timestamp 
+1:40 Expo file system 
+
+### Homework 
+1. Find how cloud db like turso can be synced with local expo-sqlite db 
+- push , pull mechanism 
+2. 
