@@ -31,10 +31,27 @@ TASK : chatbot with api secret ,
 
 - SQLite : lightweight local database used for storing structured data inside mobile application 
 
+### Expo file system 
+- module provided by Expo that allows us to interact with the devices local file system 
+
+File System : create file , read file , write file , copy/move/delete files , upload file , download , folders manage 
+
+1. File URI : every file has a path uri . using this uri operation like read , write , move , upload 
+2. Sandbox : apps cannot access all device files directly . They work inside a protected area called sandbox 
+
+3. Directories : 
+- fileSystem.documentDirectory : permanent app storage  
+  - stays until app delete them or app is uninstalled 
+
+- fileSystem.cacheDirectory : temp storage , eventually deleted by device 
+
+
 ### Bun commands 
 - bunx expo install @react-native-async-storage/async-storage
 - bunx expo install expo-secure-store
 - bunx expo install expo-sqlite
+- bunx expo install expo-file-system 
+
 ### react concepts 
 - useCallback , useMemo 
 
