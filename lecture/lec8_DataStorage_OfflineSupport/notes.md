@@ -91,3 +91,9 @@ Solution : will learn getting file permission in the next lecture
 - how instagram stores reel photos drafts 
 
 Lecture Finished : 26 September 7:50 pm 
+
+### TASK 
+- style todo 
+- upload a file and read all content 
+  - ElevateU upload file function update 
+- 
