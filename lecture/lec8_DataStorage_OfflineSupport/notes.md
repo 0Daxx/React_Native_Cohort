@@ -78,7 +78,7 @@ Code: FileSystem.tsx
   145 |             console.log("Picked file:", fileUri);
 > 146 |             console.log("File data \n\n\n ", file.textSync());
 
-Solution : will learn getting file permission in the next lecture 
+Solution : will learn getting file permission in future lecture 
 
 ### timestamp 
 1:40 Expo file system 
@@ -95,5 +95,5 @@ Lecture Finished : 26 September 7:50 pm
 ### TASK 
 - style todo 
 - upload a file and read all content 
-  - ElevateU upload file function update 
+  - ElevateU upload file function update   
 - 
