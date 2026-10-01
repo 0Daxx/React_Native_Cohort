@@ -12,7 +12,7 @@ import { AccelerometerDisplay } from "./accelerometer-display";
 
 const BALL_SIZE = 40;
 const OBSTACLE_SIZE = 60;
-const MOVE_MULTIPLIERS = { easy: 80, normal: 120, hard: 160 };
+const MOVE_MULTIPLIERS = { easy: 150, normal: 200, hard: 300 };
 const PLAY_BOX_WIDTH = 320;
 const PLAY_BOX_HEIGHT = 400;
 
